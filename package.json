@@ -1,0 +1,8 @@
+{
+  "name": "mflix",
+  "version": "1.0.0",
+  "scripts": {
+    "up": "docker-compose -f ./fabric/docker-compose.yaml up --build --detach && docker-compose -f ./fabric/docker-compose.yaml ps",
+    "down": "docker-compose -f ./fabric/docker-compose.yaml down --volumes && docker-compose -f ./fabric/docker-compose.yaml ps"
+  }
+}

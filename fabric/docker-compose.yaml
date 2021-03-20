@@ -1,0 +1,69 @@
+version: "3.9"
+services:
+  # MongoDB Setup
+  mflix-mongo:
+    image: mongo:4.4-bionic
+    container_name: mflix-mongo
+    restart: unless-stopped
+    ports:
+      - 27017:27017
+    networks:
+      - default
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=dbadmin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    volumes:
+      - type: volume
+        source: mflix-mongo-data
+        target: /data/db
+  
+  # Container to seed MongoDB with MFlix data
+  mflix-mongo-seed:
+    container_name: mflix-mongo-seed
+    build: ./mongo-seed
+    networks:
+      - default
+    depends_on:
+      - mflix-mongo
+  
+  # MongoExpress Setup
+  mongo-express:
+    image: mongo-express
+    container_name: mflix-mongo-express
+    restart: unless-stopped
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: dbadmin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: password
+      ME_CONFIG_MONGODB_SERVER: mflix-mongo
+    networks:
+      - default
+    depends_on:
+      - mflix-mongo-seed
+  
+  # Seq Setup
+  mflix-seq:
+    image: datalust/seq:2021.1
+    container_name: mflix-seq
+    restart: unless-stopped
+    ports:
+      - 8082:80
+      - 5341:5341
+    networks:
+      - default
+    environment:
+      - ACCEPT_EULA=Y
+    volumes:
+      - type: volume
+        source: mflix-seq-data
+        target: /data    
+networks:
+  default:
+    name: mflix-mongo-net
+    driver: bridge
+volumes:
+  mflix-mongo-data:
+    name: mflix-mongo-data
+  mflix-seq-data:
+    name: mflix-seq-data
