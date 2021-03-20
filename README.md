@@ -209,11 +209,11 @@ The `docker-compose.yaml` file defines the stack that will be used for all _MFli
 
 ---
 
-## Getting Started
+## 4. Getting Started
 
-### Infrastructure
+### 4.1 Infrastructure
 
-The easiest way to get started with the hosting of all required infrastructural services is to use _[npm]_. Although _[npm]_ is a package manager for the JavaScript programming language, it happens to make a good simple task runner as well. I therefore use [npm] to define the tasks required to start and stop our infrastructural services. The tasks are defined as follows:
+The complete _MFlix_ infrastructure is defined in a `docker-compose.yaml` stack. One could use _docker-compose_ commands to manage that stack. However, I think the easiest way to manage the stack is to use a task runner to execute commands relating to the management of the stack. I've decided to use _[npm]_ for my task runner. Although _[npm]_ is a package manager for the JavaScript programming language, it happens to make a good simple task runner as well. The tasks are defined as follows:
 
 ```json
 {
@@ -221,10 +221,14 @@ The easiest way to get started with the hosting of all required infrastructural 
   "version": "1.0.0",
   "scripts": {
     "up": "docker-compose -f ./fabric/docker-compose.yaml up --build --detach && docker-compose -f ./fabric/docker-compose.yaml ps",
-    "down": "docker-compose -f ./fabric/docker-compose.yaml down --volumes && docker-compose -f ./fabric/docker-compose.yaml ps"
+    "down": "docker-compose -f ./fabric/docker-compose.yaml down --volumes && docker-compose -f ./fabric/docker-compose.yaml ps",
+    "status": "docker-compose -f ./fabric/docker-compose.yaml ps",
+    "describe": "docker-compose -f ./fabric/docker-compose.yaml config --services"
   }
 }
 ```
+
+#### 4.1.1 Manage Stack
 
 To start infrastructure services,
 
@@ -257,6 +261,42 @@ docker-compose -f ./fabric/docker-compose.yaml down --volumes && docker-compose 
 Alternatively, one can install an _[npm extension]((https://github.com/Microsoft/vscode-npm-scripts))_ and run the your _npm_ tasks as follows:
 
 ![npm-task-runner-720](https://user-images.githubusercontent.com/33935506/111884505-e9277680-8a26-11eb-82b4-54d7af16931b.gif)
+
+#### 4.1.2 Test Stack
+
+To check the status of stack, run the following command:
+
+```bash
+npm run status
+```
+
+The above command should display a summary that lists the services that are running.
+
+![mflix-npm-status](https://user-images.githubusercontent.com/33935506/111885399-62759800-8a2c-11eb-8d4f-96b85e94413e.png)
+
+Open MongoDB shell
+
+```bash
+mongo --host localhost --port 27017 --username dbadmin --password password
+```
+
+![mflix-mongo-shell](https://user-images.githubusercontent.com/33935506/111885737-85a14700-8a2e-11eb-8e1d-a8793a5e9efc.png)
+
+Open Mongo Express
+
+```bash
+navigate to http://localhost:8081
+```
+
+![mflix-mongo-express](https://user-images.githubusercontent.com/33935506/111885741-86d27400-8a2e-11eb-823d-a6988f30f770.png)
+
+Open SEQ log server
+
+```bash
+navigate to http://localhost:8082
+```
+
+![mflix-seq](https://user-images.githubusercontent.com/33935506/111885740-86d27400-8a2e-11eb-953b-a359816a2928.png)
 
 ---
 
