@@ -258,7 +258,7 @@ docker-compose -f ./fabric/docker-compose.yaml down --volumes && docker-compose 
 
 ![mflix-npm-down](https://user-images.githubusercontent.com/33935506/111884354-1cb5d100-8a26-11eb-95ea-f5182c20ceb4.png)
 
-Alternatively, one can install an _[npm extension]((https://github.com/Microsoft/vscode-npm-scripts))_ and run the your _npm_ tasks as follows:
+Alternatively, one can install an _[npm extension](https://github.com/Microsoft/vscode-npm-scripts)_ and run the your _npm_ tasks as follows:
 
 ![npm-task-runner-720](https://user-images.githubusercontent.com/33935506/111884505-e9277680-8a26-11eb-82b4-54d7af16931b.gif)
 

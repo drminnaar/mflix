@@ -1,0 +1,72 @@
+{
+    "fullplot": "FANTASTIC FOUR TEST, a contemporary re-imagining of Marvel's original and longest-running superhero team, centers on four young outsiders who teleport to an alternate and dangerous universe, which alters their physical form in shocking ways. Their lives irrevocably upended, the team must learn to harness their daunting new abilities and work together to save Earth from a former friend turned enemy.",
+    "imdb": {
+        "rating": 4,
+        "votes": 42420,
+        "id": 1502712
+    },
+    "year": 2015,
+    "plot": "Four young outsiders teleport to an alternate and dangerous universe which alters their physical form in shocking ways. The four must learn to harness their new abilities and work together to save Earth from a former friend turned enemy.",
+    "genres": [
+        "Action",
+        "Adventure",
+        "Sci-Fi"
+    ],
+    "rated": "PG-13",
+    "metacritic": 27,
+    "title": "Fantastic Four TEST",
+    "lastupdated": "2015-08-13T00:27:59.177000000",
+    "languages": [
+        "English"
+    ],
+    "writers": [
+        "Jeremy Slater (screenplay)",
+        "Simon Kinberg (screenplay)",
+        "Josh Trank (screenplay)",
+        "Stan Lee (Marvel comic book)",
+        "Jack Kirby (Marvel comic book)"
+    ],
+    "type": "movie",
+    "tomatoes": {
+        "website": "http://www.FantasticFourMovie.com",
+        "viewer": {
+            "rating": 2.1,
+            "numReviews": 130286,
+            "meter": 21
+        },
+        "critic": {
+            "rating": 3.4,
+            "numReviews": 194,
+            "meter": 9
+        },
+        "boxOffice": "$54.4M",
+        "consensus": "Dull and downbeat, this Fantastic Four proves a woefully misguided attempt to translate a classic comic series without the humor, joy, or colorful thrills that made it great.",
+        "rotten": 177,
+        "production": "20th Century Fox",
+        "lastUpdated": "2015-09-11T17:11:49Z",
+        "fresh": 17
+    },
+    "poster": "https://m.media-amazon.com/images/M/MV5BMTk0OTMyMDA0OF5BMl5BanBnXkFtZTgwMzY5NTkzNTE@._V1_SY1000_SX677_AL_.jpg",
+    "numMFlixComments": 1,
+    "released": "2015-08-07T00:00:00Z",
+    "awards": {
+        "wins": 1,
+        "nominations": 0,
+        "text": "1 win."
+    },
+    "countries": [
+        "UK",
+        "Germany",
+        "USA"
+    ],
+    "cast": [
+        "Miles Teller",
+        "Michael B. Jordan",
+        "Kate Mara",
+        "Jamie Bell"
+    ],
+    "directors": [
+        "Josh Trank"
+    ],
+    "runtime": 100
+}
