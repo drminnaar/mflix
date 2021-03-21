@@ -46,8 +46,7 @@ namespace MFlix.Data.Movies
 
                 return await _collection
                     .FindOneAndDeleteAsync(filter)
-                    .ConfigureAwait(false)
-                    ?? new Movie();
+                    .ConfigureAwait(false);
             };
         }
 
