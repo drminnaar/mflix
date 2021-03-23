@@ -6,6 +6,18 @@ namespace System.Collections.Generic
     {
         private readonly List<T> _list = new();
 
+        public PagedCollection() : this(0, 0)
+        {
+        }
+
+        public PagedCollection(int pageNumber, int pageSize) : this(
+            items: Enumerable.Empty<T>().ToList(),
+            itemCount: 0,
+            pageNumber: pageNumber,
+            pageSize: pageSize)
+        {
+        }
+
         public PagedCollection(IReadOnlyCollection<T> items, long itemCount, int pageNumber, int pageSize)
         {
             if (items is null)
@@ -28,14 +40,6 @@ namespace System.Collections.Generic
             PageSize = pageSize;
             PageCount = ComputePageCount(pageSize, itemCount);
             _list.AddRange(items);
-        }
-
-        public PagedCollection(int pageNumber, int pageSize) : this(
-            items: Enumerable.Empty<T>().ToList(),
-            itemCount: 0,
-            pageNumber: pageNumber,
-            pageSize: pageSize)
-        {
         }
 
         public int CurrentPageNumber { get; }

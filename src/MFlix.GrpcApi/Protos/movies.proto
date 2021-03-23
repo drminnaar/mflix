@@ -4,6 +4,7 @@ package mflix.services;
 
 service MovieService {
     rpc GetMovieById(GetMovieByIdRequest) returns (GetMovieByIdResponse);
+    rpc GetMovieList(GetMovieListRequest) returns (GetMovieListResponse);
 }
 
 //
@@ -50,4 +51,43 @@ message GetMovieByIdRequest {
 
 message GetMovieByIdResponse {
     Movie movie = 1;
+}
+
+//
+// Get Movie List
+//
+
+message MovieOptions {
+    int32 pageNumber = 1;
+    int32 pageSize = 2;
+    repeated string sortBy = 3;
+    string title = 4;
+    string rated = 5;
+    string runtime = 6;
+    string year = 7;
+    string type = 8;
+    repeated string cast = 9;
+    repeated string genres = 10;
+    repeated string directors = 11;
+}
+
+message PageInfo {
+    int32 currentPageNumber = 1;
+    int32 nextPageNumber = 2;
+    int32 previousPageNumber = 3;
+    int32 lastPageNumber = 4;
+    int64 itemCount = 5;
+    int32 pageSize = 6;
+    int32 pageCount = 7;
+    bool hasPrevious = 8;
+    bool hasNext = 9;
+}
+
+message GetMovieListRequest {
+    MovieOptions options = 1;
+}
+
+message GetMovieListResponse {
+    repeated Movie movies = 1;
+    PageInfo pageInfo = 2;
 }

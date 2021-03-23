@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using AutoMapper;
+using MFlix.Data.Movies;
 using MFlix.Data.Movies.Models;
 
 namespace MFlix.GrpcApi.Managers.Mappers
@@ -11,6 +13,8 @@ namespace MFlix.GrpcApi.Managers.Mappers
             CreateMap<ViewerInfo, Services.Viewer>();
             CreateMap<TomatoRating, Services.Tomatoes>();
             CreateMap<Movie, Services.Movie>();
+            CreateMap<Services.MovieOptions, MovieOptions>();
+            CreateMap<IPagedCollection<Movie>, Services.PageInfo>();
         }
     }
 }
