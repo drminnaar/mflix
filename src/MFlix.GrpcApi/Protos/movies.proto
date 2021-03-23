@@ -1,0 +1,53 @@
+syntax = "proto3";
+option csharp_namespace = "MFlix.Services";
+package mflix.services;
+
+service MovieService {
+    rpc GetMovieById(GetMovieByIdRequest) returns (GetMovieByIdResponse);
+}
+
+//
+// Common
+//
+message Imdb {
+    double rating = 1;
+    int32 votes = 2;
+    int32 id = 3;
+}
+
+message Viewer {
+    double rating = 1;
+    int32 numReviews = 2;
+    int32 meter = 3;
+}
+
+message Tomatoes {
+    Viewer viewer = 1;
+    string lastUpdated = 2;
+}
+
+message Movie {
+    string id = 1;
+    string title = 2;
+    int32 runtime = 3;
+    string rated = 4;
+    int32 year = 5;
+    string poster = 6;
+    Imdb imdb = 7;
+    Tomatoes tomatoes = 8;
+    repeated string cast = 9;
+    repeated string genres = 10;
+    repeated string directors = 11;
+}
+
+//
+// GetMovieById
+//
+
+message GetMovieByIdRequest {
+    string movieId = 1;
+}
+
+message GetMovieByIdResponse {
+    Movie movie = 1;
+}

@@ -19,7 +19,7 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/src/MFlix.DataTests/MFlix.DataTests.csproj",
+                "${workspaceFolder}/src/MFlix.GrpcApi/MFlix.GrpcApi.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],

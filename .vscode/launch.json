@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/MFlix.DataTests/bin/Debug/net5.0/MFlix.DataTests.dll",
+            "program": "${workspaceFolder}/src/MFlix.GrpcApi/bin/Debug/net5.0/MFlix.GrpcApi.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/MFlix.DataTests",
+            "cwd": "${workspaceFolder}/src/MFlix.GrpcApi",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",
             "stopAtEntry": false
