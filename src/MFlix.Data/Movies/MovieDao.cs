@@ -14,6 +14,7 @@ namespace MFlix.Data.Movies
         Task<Movie> GetMovieById(string movieId);
         Task<IPagedCollection<Movie>> GetMovies(MovieOptions options);
         Task<ImdbRating> SaveImdbRating(string movieId, ImdbRating rating);
+        Task<TomatoesRating> SaveTomatoesRating(string movieId, TomatoesRating rating);
         Task<ObjectId> SaveMovie(Movie movie);
     }
 
@@ -125,6 +126,31 @@ namespace MFlix.Data.Movies
                     .ConfigureAwait(false);
 
                 return movie.Imdb ?? throw new MongoException($"The method '{nameof(SaveImdbRating)}' failed. It's likely that a movie having id '{movieId}' could not be found.");
+            }
+        }
+
+        public Task<TomatoesRating> SaveTomatoesRating(string movieId, TomatoesRating rating)
+        {
+            if (rating is null)
+                throw new ArgumentNullException(nameof(rating));
+
+            return SaveTomatoesRating();
+
+            async Task<TomatoesRating> SaveTomatoesRating()
+            {
+                var filter = Builders<Movie>.Filter.Eq(movie => movie.Id, new ObjectId(movieId));
+                var update = Builders<Movie>.Update.Set(movie => movie.Tomatoes, rating);
+
+                var movie = await _collection
+                    .FindOneAndUpdateAsync
+                    (
+                        filter,
+                        update,
+                        options: new() { ReturnDocument = ReturnDocument.After }
+                    )
+                    .ConfigureAwait(false);
+
+                return movie.Tomatoes ?? throw new MongoException($"The method '{nameof(SaveTomatoesRating)}' failed. It's likely that a movie having id '{movieId}' could not be found.");
             }
         }
     }

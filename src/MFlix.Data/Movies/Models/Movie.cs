@@ -66,7 +66,7 @@ namespace MFlix.Data.Movies.Models
         public string Title { get; set; } = string.Empty;
 
         [BsonElement("tomatoes")]
-        public TomatoRating? Tomatoes { get; set; }
+        public TomatoesRating? Tomatoes { get; set; }
 
         [BsonElement("type")]
         public string Type { get; set; } = string.Empty;

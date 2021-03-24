@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using Bogus;
 using MFlix.Data.Movies;
 using MFlix.Data.Movies.Models;
 using MFlix.DataTests.DependencyInjection;
+using MFlix.DataTests.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Bson;
 using Xunit;
@@ -110,6 +112,53 @@ namespace MFlix.DataTests.Movies
             // act
             var imdbRatingFromSave = await dao.SaveImdbRating("573a13c8f29313caabd77e87", imdbRating).ConfigureAwait(true);
             var actual = JsonSerializer.Serialize(imdbRatingFromSave);
+
+            // assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task Should_save_tomatoes_rating()
+        {
+            // arrange
+            var dao = _services.GetRequiredService<IMovieDao>();
+
+            var criticInfo = new Faker<CriticInfo>()
+                .StrictMode(true)
+                .RuleFor(critic => critic.Meter, faker => faker.Random.Int(min: 0, max: 100))
+                .RuleFor(critic => critic.NumReviews, faker => faker.Random.Int(min: 100, 50000))
+                .RuleFor(critic => critic.Rating, faker => faker.Random.Double(min: 1.5, max: 10.0))
+                .Generate();
+
+            var viewerInfo = new Faker<ViewerInfo>()
+                .StrictMode(true)
+                .RuleFor(viewer => viewer.Meter, faker => faker.Random.Int(min: 1, max: 10))
+                .RuleFor(viewer => viewer.NumReviews, faker => faker.Random.Int(min: 1000, max: 100000))
+                .RuleFor(viewer => viewer.Rating, faker => faker.Random.Int(min: 1, max: 100))
+                .Generate();
+
+            var tomatoesRating = new Faker<TomatoesRating>()
+                .StrictMode(true)
+                .RuleFor(rating => rating.BoxOffice, faker => $"${faker.Finance.Amount(min: 100000, max: 20000000).ToString(CultureInfo.CurrentCulture)}")
+                .RuleFor(rating => rating.Consensus, faker => faker.Lorem.Sentence(wordCount: 10))
+                .RuleFor(rating => rating.Critic, faker => criticInfo)
+                .RuleFor(rating => rating.Dvd, faker => DateTime.Parse(DateTime.UtcNow.ToShortDateString(), CultureInfo.InvariantCulture))
+                .RuleFor(rating => rating.Fresh, faker => faker.Random.Int(min: 0, max: 50))
+                .RuleFor(rating => rating.LastUpdated, faker => DateTime.UtcNow)
+                .RuleFor(rating => rating.Production, faker => faker.Company.CompanyName())
+                .RuleFor(rating => rating.Rotten, faker => faker.Random.Int(min: 0, max: 10))
+                .RuleFor(rating => rating.Viewer, faker => viewerInfo)
+                .RuleFor(rating => rating.Website, faker => faker.Internet.UrlWithPath())
+                .Generate();
+
+            var options = new JsonSerializerOptions();
+            options.Converters.Add(new DateTimeConverterUsingDateTimeParse());
+
+            var expected = JsonSerializer.Serialize(tomatoesRating, options);
+
+            // act
+            var tomatoesRatingFromSave = await dao.SaveTomatoesRating("573a13c8f29313caabd77e87", tomatoesRating).ConfigureAwait(true);
+            var actual = JsonSerializer.Serialize(tomatoesRatingFromSave, options);
 
             // assert
             Assert.Equal(expected, actual);

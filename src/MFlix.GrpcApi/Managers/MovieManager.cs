@@ -80,5 +80,19 @@ namespace MFlix.GrpcApi.Managers
                 Imdb = _mapper.Map<Services.Imdb>(imdbRatingFromSave)
             };
         }
+
+        public override async Task<Services.SaveTomatoesRatingResponse> SaveTomatoesRating(Services.SaveTomatoesRatingRequest request, ServerCallContext context)
+        {
+            var tomatoesRating = _mapper.Map<TomatoesRating>(request.Tomatoes);
+
+            var tomatoesRatingFromSave = await _movieDao
+                .SaveTomatoesRating(request.MovieId, tomatoesRating)
+                .ConfigureAwait(true);
+
+            return new Services.SaveTomatoesRatingResponse
+            {
+                Tomatoes = _mapper.Map<Services.Tomatoes>(tomatoesRatingFromSave)
+            };
+        }
     }
 }

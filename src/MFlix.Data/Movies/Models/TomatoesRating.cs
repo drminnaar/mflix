@@ -3,7 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace MFlix.Data.Movies.Models
 {
-    public sealed class TomatoRating
+    public sealed class TomatoesRating
     {
         [BsonElement("boxOffice")]
         public string? BoxOffice { get; set; } = string.Empty;
@@ -15,6 +15,7 @@ namespace MFlix.Data.Movies.Models
         public CriticInfo? Critic { get; set; } = new CriticInfo();
 
         [BsonElement("dvd")]
+        [BsonDateTimeOptions(DateOnly = true, Kind = DateTimeKind.Utc)]
         public DateTime? Dvd { get; set; }
 
         [BsonElement("fresh")]

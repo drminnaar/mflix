@@ -68,7 +68,7 @@ namespace MFlix.Data.DependencyInjection
                 map.SetIgnoreExtraElements(true);
             });
 
-            BsonClassMap.RegisterClassMap<TomatoRating>(map =>
+            BsonClassMap.RegisterClassMap<TomatoesRating>(map =>
             {
                 map.AutoMap();
                 map.SetIgnoreExtraElements(true);

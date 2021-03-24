@@ -8,6 +8,7 @@ service MovieService {
     rpc GetMovieList(GetMovieListRequest) returns (GetMovieListResponse);
     rpc SaveMovie(SaveMovieRequest) returns (SaveMovieResponse);
     rpc SaveImdbRating(SaveImdbRatingRequest) returns (SaveImdbRatingResponse);
+    rpc SaveTomatoesRating(SaveTomatoesRatingRequest) returns (SaveTomatoesRatingResponse);
 }
 
 //
@@ -25,9 +26,23 @@ message Viewer {
     int32 meter = 3;
 }
 
+message Critic {
+    double rating = 1;
+    int32 numReviews = 2;
+    int32 meter = 3;
+}
+
 message Tomatoes {
-    Viewer viewer = 1;
-    string lastUpdated = 2;
+    string boxOffice = 1;
+    string consensus = 2;
+    Critic critic = 3;
+    google.protobuf.Timestamp dvd = 4;
+    int32 fresh = 5;
+    google.protobuf.Timestamp lastUpdated = 6;
+    string production = 7;
+    int32 rotten = 8;
+    Viewer viewer = 9;
+    string website = 10;
 }
 
 message Movie {
@@ -132,4 +147,17 @@ message SaveImdbRatingRequest {
 
 message SaveImdbRatingResponse {
     Imdb imdb = 1;
+}
+
+//
+// Save Tomatoes Rating
+//
+
+message SaveTomatoesRatingRequest {
+    string movieId = 1;
+    Tomatoes tomatoes = 2;
+}
+
+message SaveTomatoesRatingResponse {
+    Tomatoes tomatoes = 1;
 }

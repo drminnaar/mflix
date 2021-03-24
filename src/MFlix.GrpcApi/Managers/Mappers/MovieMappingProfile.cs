@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using AutoMapper;
+using Google.Protobuf.WellKnownTypes;
 using MFlix.Data.Movies;
 using MFlix.Data.Movies.Models;
 using MongoDB.Bson;
@@ -11,8 +12,22 @@ namespace MFlix.GrpcApi.Managers.Mappers
         public MovieMappingProfile()
         {
             CreateMap<ImdbRating, Services.Imdb>().ReverseMap();
-            CreateMap<ViewerInfo, Services.Viewer>();
-            CreateMap<TomatoRating, Services.Tomatoes>();
+            CreateMap<ViewerInfo, Services.Viewer>().ReverseMap();
+            CreateMap<CriticInfo, Services.Critic>().ReverseMap();
+            CreateMap<TomatoesRating, Services.Tomatoes>()
+                .ForMember(
+                    destination => destination.LastUpdated,
+                    options => options.MapFrom(rating => Timestamp.FromDateTime(rating.LastUpdated)))
+                .ForMember(
+                    destination => destination.Dvd,
+                    options => options.MapFrom(rating => rating.Dvd.HasValue ? Timestamp.FromDateTime(rating.Dvd.Value) : null));
+            CreateMap<Services.Tomatoes, TomatoesRating>()
+                .ForMember(
+                    destination => destination.LastUpdated,
+                    options => options.MapFrom(rating => rating.LastUpdated.ToDateTime()))
+                .ForMember(
+                    destination => destination.Dvd,
+                    options => options.MapFrom(rating => rating.Dvd.ToDateTime().Date));
             CreateMap<Movie, Services.Movie>();
             CreateMap<Services.MovieOptions, MovieOptions>();
             CreateMap<IPagedCollection<Movie>, Services.PageInfo>();
