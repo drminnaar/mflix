@@ -13,7 +13,7 @@ namespace MFlix.Data.Movies.Models
         public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
         [BsonElement("awards")]
-        public AwardsInfo Awards { get; set; } = new AwardsInfo();
+        public AwardsInfo? Awards { get; set; }
 
         [BsonElement("cast")]
         public IReadOnlyCollection<string>? Cast { get; set; } = Enumerable.Empty<string>().ToList();
@@ -31,7 +31,7 @@ namespace MFlix.Data.Movies.Models
         public IReadOnlyCollection<string>? Genres { get; set; } = Enumerable.Empty<string>().ToList();
 
         [BsonElement("imdb")]
-        public ImdbRating Imdb { get; set; } = new ImdbRating();
+        public ImdbRating? Imdb { get; set; }
 
         [BsonElement("languages")]
         public IReadOnlyCollection<string>? Languages { get; set; } = Enumerable.Empty<string>().ToList();
