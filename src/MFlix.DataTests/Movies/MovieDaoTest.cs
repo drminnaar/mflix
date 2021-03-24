@@ -108,11 +108,10 @@ namespace MFlix.DataTests.Movies
             var expected = JsonSerializer.Serialize(imdbRating);
 
             // act
-            var movie = await dao.SaveImdbRating("573a13c8f29313caabd77e87", imdbRating).ConfigureAwait(true);
-            var actual = JsonSerializer.Serialize(movie.Imdb);
+            var imdbRatingFromSave = await dao.SaveImdbRating("573a13c8f29313caabd77e87", imdbRating).ConfigureAwait(true);
+            var actual = JsonSerializer.Serialize(imdbRatingFromSave);
 
             // assert
-            Assert.NotNull(movie);
             Assert.Equal(expected, actual);
         }
     }

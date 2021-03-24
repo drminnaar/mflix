@@ -66,5 +66,19 @@ namespace MFlix.GrpcApi.Managers
                 MovieId = movieId.ToString()
             };
         }
+
+        public override async Task<Services.SaveImdbRatingResponse> SaveImdbRating(Services.SaveImdbRatingRequest request, ServerCallContext context)
+        {
+            var imdbRating = _mapper.Map<ImdbRating>(request.Imdb);
+
+            var imdbRatingFromSave = await _movieDao
+                .SaveImdbRating(request.MovieId, imdbRating)
+                .ConfigureAwait(true);
+
+            return new Services.SaveImdbRatingResponse
+            {
+                Imdb = _mapper.Map<Services.Imdb>(imdbRatingFromSave)
+            };
+        }
     }
 }

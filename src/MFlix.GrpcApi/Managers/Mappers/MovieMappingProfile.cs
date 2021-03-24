@@ -10,7 +10,7 @@ namespace MFlix.GrpcApi.Managers.Mappers
     {
         public MovieMappingProfile()
         {
-            CreateMap<ImdbRating, Services.Imdb>();
+            CreateMap<ImdbRating, Services.Imdb>().ReverseMap();
             CreateMap<ViewerInfo, Services.Viewer>();
             CreateMap<TomatoRating, Services.Tomatoes>();
             CreateMap<Movie, Services.Movie>();
