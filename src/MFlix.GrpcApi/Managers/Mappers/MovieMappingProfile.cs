@@ -22,7 +22,10 @@ namespace MFlix.GrpcApi.Managers.Mappers
                     options => options.MapFrom(movie => DetermineMovieId(movie)))
                 .ForMember(
                     destination => destination.Released,
-                    options => options.MapFrom(movie => movie.Released.ToDateTime()));
+                    options => options.MapFrom(movie => movie.Released.ToDateTime()))
+                .ForMember(
+                    destination => destination.Type,
+                    options => options.MapFrom(movie => "movie"));
         }
 
         private static ObjectId DetermineMovieId(Services.MovieForSave movie) =>
