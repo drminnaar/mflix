@@ -1,10 +1,12 @@
 syntax = "proto3";
 option csharp_namespace = "MFlix.Services";
 package mflix.services;
+import "google/protobuf/timestamp.proto";
 
 service MovieService {
     rpc GetMovieById(GetMovieByIdRequest) returns (GetMovieByIdResponse);
     rpc GetMovieList(GetMovieListRequest) returns (GetMovieListResponse);
+    rpc SaveMovie(SaveMovieRequest) returns (SaveMovieResponse);
 }
 
 //
@@ -90,4 +92,30 @@ message GetMovieListRequest {
 message GetMovieListResponse {
     repeated Movie movies = 1;
     PageInfo pageInfo = 2;
+}
+
+//
+// Save Movie
+//
+
+message MovieForSave {
+    string id = 1;
+    string title = 2;
+    string plot = 3;
+    int32 runtime = 4;
+    string rated = 5;
+    int32 year = 6;
+    string poster = 7;
+    google.protobuf.Timestamp released = 8;
+    repeated string genres = 9;
+    repeated string cast = 10;
+    repeated string directors = 11;
+}
+
+message SaveMovieRequest {
+    MovieForSave movie = 1;
+}
+
+message SaveMovieResponse {
+    string movieId = 1;
 }

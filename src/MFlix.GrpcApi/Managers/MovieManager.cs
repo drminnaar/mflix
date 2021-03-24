@@ -52,5 +52,19 @@ namespace MFlix.GrpcApi.Managers
 
             return response;
         }
+
+        public override async Task<Services.SaveMovieResponse> SaveMovie(Services.SaveMovieRequest request, ServerCallContext context)
+        {
+            var movie = _mapper.Map<Movie>(request.Movie);
+
+            var movieId = await _movieDao
+                .SaveMovie(movie)
+                .ConfigureAwait(true);
+
+            return new Services.SaveMovieResponse
+            {
+                MovieId = movieId.ToString()
+            };
+        }
     }
 }
