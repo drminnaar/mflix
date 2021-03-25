@@ -34,8 +34,12 @@ namespace MFlix.GrpcApi
                 options.EnableDetailedErrors = _environment.IsDevelopment();
                 options.MaxReceiveMessageSize = 1024 * 1024; // 1MB
                 options.MaxSendMessageSize = 1024 * 1024; // 1MB
-
             });
+
+            if (_environment.IsDevelopment())
+            {
+                services.AddGrpcReflection();
+            }
         }
 
         public void Configure(IApplicationBuilder app)
@@ -49,6 +53,11 @@ namespace MFlix.GrpcApi
 
             app.UseEndpoints(endpoints =>
             {
+                if (_environment.IsDevelopment())
+                {
+                    endpoints.MapGrpcReflectionService();
+                }
+
                 endpoints.MapGrpcService<MovieManager>();
 
                 endpoints.MapGet("/", async context =>
