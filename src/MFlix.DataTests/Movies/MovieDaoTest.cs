@@ -163,5 +163,18 @@ namespace MFlix.DataTests.Movies
             // assert
             Assert.Equal(expected, actual);
         }
+
+        [Fact]
+        public async Task Should_save_metacritic_rating()
+        {
+            // arrange
+            var dao = _services.GetRequiredService<IMovieDao>();
+
+            // act
+            var metacriticRating = await dao.SaveMetacriticRating("573a1390f29313caabcd4135", 75).ConfigureAwait(true);
+
+            // assert
+            Assert.Equal(75, metacriticRating);
+        }
     }
 }

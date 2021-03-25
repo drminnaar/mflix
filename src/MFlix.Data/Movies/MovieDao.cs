@@ -16,6 +16,7 @@ namespace MFlix.Data.Movies
         Task<ImdbRating> SaveImdbRating(string movieId, ImdbRating rating);
         Task<TomatoesRating> SaveTomatoesRating(string movieId, TomatoesRating rating);
         Task<ObjectId> SaveMovie(Movie movie);
+        Task<int?> SaveMetacriticRating(string movieId, int? rating);
     }
 
     public sealed class MovieDao : IMovieDao
@@ -152,6 +153,29 @@ namespace MFlix.Data.Movies
 
                 return movie.Tomatoes ?? throw new MongoException($"The method '{nameof(SaveTomatoesRating)}' failed. It's likely that a movie having id '{movieId}' could not be found.");
             }
+        }
+
+        public async Task<int?> SaveMetacriticRating(string movieId, int? rating)
+        {
+            if (!ObjectId.TryParse(movieId, out var movieIdValue))
+                throw new ArgumentException($"Invalid '{nameof(movieId)}' specified. The value '{movieId}' is an invalid MongoDB ObjectId", nameof(movieId));
+
+            var filter = Builders<Movie>.Filter.Eq(movie => movie.Id, movieIdValue);
+            var update = Builders<Movie>.Update.Set(movie => movie.Metacritic, rating);
+
+            var movie = await _collection
+                .FindOneAndUpdateAsync
+                (
+                    filter,
+                    update,
+                    options: new() { ReturnDocument = ReturnDocument.After }
+                )
+                .ConfigureAwait(false);
+
+            if (movie is null)
+                throw new MongoException($"The method '{nameof(SaveMetacriticRating)}' failed. It's likely that a movie having id '{movieId}' could not be found.");
+
+            return movie.Metacritic;
         }
     }
 }

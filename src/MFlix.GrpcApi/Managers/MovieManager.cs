@@ -94,5 +94,17 @@ namespace MFlix.GrpcApi.Managers
                 Tomatoes = _mapper.Map<Services.Tomatoes>(tomatoesRatingFromSave)
             };
         }
+
+        public override async Task<Services.SaveMetacriticRatingResponse> SaveMetacriticRating(Services.SaveMetacriticRatingRequest request, ServerCallContext context)
+        {
+            var metacriticRating = await _movieDao
+                .SaveMetacriticRating(request.MovieId, request.MetacriticRating)
+                .ConfigureAwait(true);
+
+            return new Services.SaveMetacriticRatingResponse
+            {
+                MetacriticRating = metacriticRating
+            };
+        }
     }
 }

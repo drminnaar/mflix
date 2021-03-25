@@ -2,6 +2,7 @@ syntax = "proto3";
 option csharp_namespace = "MFlix.Services";
 package mflix.services;
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
 
 service MovieService {
     rpc GetMovieById(GetMovieByIdRequest) returns (GetMovieByIdResponse);
@@ -9,6 +10,7 @@ service MovieService {
     rpc SaveMovie(SaveMovieRequest) returns (SaveMovieResponse);
     rpc SaveImdbRating(SaveImdbRatingRequest) returns (SaveImdbRatingResponse);
     rpc SaveTomatoesRating(SaveTomatoesRatingRequest) returns (SaveTomatoesRatingResponse);
+    rpc SaveMetacriticRating(SaveMetacriticRatingRequest) returns (SaveMetacriticRatingResponse);
 }
 
 //
@@ -160,4 +162,17 @@ message SaveTomatoesRatingRequest {
 
 message SaveTomatoesRatingResponse {
     Tomatoes tomatoes = 1;
+}
+
+//
+// Save Metacritic Rating
+//
+
+message SaveMetacriticRatingRequest {
+    string movieId = 1;
+    google.protobuf.Int32Value metacriticRating = 2;
+}
+
+message SaveMetacriticRatingResponse {
+    google.protobuf.Int32Value metacriticRating = 1;
 }
