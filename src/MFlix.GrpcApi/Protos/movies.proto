@@ -11,6 +11,7 @@ service MovieService {
     rpc SaveImdbRating(SaveImdbRatingRequest) returns (SaveImdbRatingResponse);
     rpc SaveTomatoesRating(SaveTomatoesRatingRequest) returns (SaveTomatoesRatingResponse);
     rpc SaveMetacriticRating(SaveMetacriticRatingRequest) returns (SaveMetacriticRatingResponse);
+    rpc DeleteMovie(DeleteMovieRequest) returns (DeleteMovieResponse);
 }
 
 //
@@ -175,4 +176,16 @@ message SaveMetacriticRatingRequest {
 
 message SaveMetacriticRatingResponse {
     google.protobuf.Int32Value metacriticRating = 1;
+}
+
+//
+// DeleteMovie
+//
+
+message DeleteMovieRequest {
+    string movieId = 1;
+}
+
+message DeleteMovieResponse {
+    string movieId = 1;
 }

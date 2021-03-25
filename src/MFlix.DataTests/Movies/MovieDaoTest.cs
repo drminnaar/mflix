@@ -30,6 +30,24 @@ namespace MFlix.DataTests.Movies
         }
 
         [Fact]
+        public async Task Should_delete_movie()
+        {
+            // arrange
+            var dao = _services.GetRequiredService<IMovieDao>();
+            var json = File.ReadAllText("TestFiles/movie.json");
+            var movie = JsonSerializer
+                .Deserialize<Movie>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })
+                ?? throw new InvalidOperationException("Movie serialization failed. Expected a movie but received null instead");
+
+            // act
+            var movieIdFromSave = await dao.SaveMovie(movie).ConfigureAwait(true);
+            var movieFromDelete = await dao.DeleteMovie(movieIdFromSave.ToString()).ConfigureAwait(true);
+
+            // assert
+            Assert.Equal(movieIdFromSave.ToString(), movieFromDelete.Id.ToString());
+        }
+
+        [Fact]
         public async Task Should_get_movie_by_id()
         {
             // arrange

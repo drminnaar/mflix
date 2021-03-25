@@ -48,7 +48,8 @@ namespace MFlix.Data.Movies
 
                 return await _collection
                     .FindOneAndDeleteAsync(filter)
-                    .ConfigureAwait(false);
+                    .ConfigureAwait(false)
+                    ?? throw new MongoException($"The method '{nameof(DeleteMovie)}' failed. It's likely that a movie having id '{movieId}' could not be found.");
             };
         }
 

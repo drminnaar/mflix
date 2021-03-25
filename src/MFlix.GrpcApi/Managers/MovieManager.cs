@@ -19,6 +19,18 @@ namespace MFlix.GrpcApi.Managers
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
+        public override async Task<Services.DeleteMovieResponse> DeleteMovie(Services.DeleteMovieRequest request, ServerCallContext context)
+        {
+            var movie = await _movieDao
+                .DeleteMovie(request.MovieId)
+                .ConfigureAwait(true);
+
+            return new Services.DeleteMovieResponse
+            {
+                MovieId = movie.Id.ToString()
+            };
+        }
+
         public override async Task<Services.GetMovieByIdResponse> GetMovieById(
             Services.GetMovieByIdRequest request,
             ServerCallContext context)
