@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 
 namespace MFlix.GrpcApi
 {
@@ -51,6 +52,7 @@ namespace MFlix.GrpcApi
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseSerilogRequestLogging();
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
