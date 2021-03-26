@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using MFlix.Data.DependencyInjection;
+using MFlix.GrpcApi.Infrastructure.Interceptors;
 using MFlix.GrpcApi.Managers;
 using MFlix.Services;
 using Microsoft.AspNetCore.Builder;
@@ -32,6 +33,7 @@ namespace MFlix.GrpcApi
             services.AddGrpc(options =>
             {
                 options.EnableDetailedErrors = _environment.IsDevelopment();
+                options.Interceptors.Add<ServerErrorHandler>();
                 options.MaxReceiveMessageSize = 1024 * 1024; // 1MB
                 options.MaxSendMessageSize = 1024 * 1024; // 1MB
             });

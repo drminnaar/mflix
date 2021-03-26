@@ -37,8 +37,8 @@ namespace MFlix.Data.Movies
 
         public Task<Movie> DeleteMovie(string movieId)
         {
-            if (string.IsNullOrWhiteSpace(movieId))
-                throw new ArgumentException($"'{nameof(movieId)}' cannot be null or whitespace.", nameof(movieId));
+            if (!ObjectId.TryParse(movieId, out var movieIdValue))
+                throw NewInvalidMovieIdArgumentException(movieId);
 
             return DeleteMovie();
 
@@ -49,15 +49,22 @@ namespace MFlix.Data.Movies
                 return await _collection
                     .FindOneAndDeleteAsync(filter)
                     .ConfigureAwait(false)
-                    ?? throw new MongoException($"The method '{nameof(DeleteMovie)}' failed. It's likely that a movie having id '{movieId}' could not be found.");
+                    ?? throw NewEntityNotFoundException(nameof(DeleteMovie), movieId);
             };
         }
 
-        public Task<Movie> GetMovieById(string movieId) => GetMovieById(ObjectId.Parse(movieId));
+        public Task<Movie> GetMovieById(string movieId)
+        {
+            if (!ObjectId.TryParse(movieId, out var movieIdValue))
+                throw NewInvalidMovieIdArgumentException(movieId);
+
+            return GetMovieById(movieIdValue);
+        }
 
         public Task<Movie> GetMovieById(ObjectId movieId) => _collection
                 .Find(movie => movie.Id == movieId)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync()
+                ?? throw NewEntityNotFoundException(nameof(GetMovieById), movieId.ToString());
 
         public Task<IPagedCollection<Movie>> GetMovies(MovieOptions options)
         {
@@ -93,7 +100,7 @@ namespace MFlix.Data.Movies
 
             async Task<ObjectId> SaveMovie()
             {
-                var result = await _collection
+                await _collection
                     .ReplaceOneAsync
                     (
                         filter: Builders<Movie>.Filter.Eq(m => m.Id, movie.Id),
@@ -108,6 +115,9 @@ namespace MFlix.Data.Movies
 
         public Task<ImdbRating> SaveImdbRating(string movieId, ImdbRating rating)
         {
+            if (!ObjectId.TryParse(movieId, out var movieIdValue))
+                throw NewInvalidMovieIdArgumentException(movieId);
+
             if (rating is null)
                 throw new ArgumentNullException(nameof(rating));
 
@@ -127,12 +137,15 @@ namespace MFlix.Data.Movies
                     )
                     .ConfigureAwait(false);
 
-                return movie.Imdb ?? throw new MongoException($"The method '{nameof(SaveImdbRating)}' failed. It's likely that a movie having id '{movieId}' could not be found.");
+                return movie?.Imdb ?? throw NewEntityNotFoundException(nameof(SaveImdbRating), movieId);
             }
         }
 
         public Task<TomatoesRating> SaveTomatoesRating(string movieId, TomatoesRating rating)
         {
+            if (!ObjectId.TryParse(movieId, out var movieIdValue))
+                throw NewInvalidMovieIdArgumentException(movieId);
+
             if (rating is null)
                 throw new ArgumentNullException(nameof(rating));
 
@@ -152,14 +165,14 @@ namespace MFlix.Data.Movies
                     )
                     .ConfigureAwait(false);
 
-                return movie.Tomatoes ?? throw new MongoException($"The method '{nameof(SaveTomatoesRating)}' failed. It's likely that a movie having id '{movieId}' could not be found.");
+                return movie?.Tomatoes ?? throw NewEntityNotFoundException(nameof(SaveTomatoesRating), movieId);
             }
         }
 
         public async Task<int?> SaveMetacriticRating(string movieId, int? rating)
         {
             if (!ObjectId.TryParse(movieId, out var movieIdValue))
-                throw new ArgumentException($"Invalid '{nameof(movieId)}' specified. The value '{movieId}' is an invalid MongoDB ObjectId", nameof(movieId));
+                throw NewInvalidMovieIdArgumentException(movieId);
 
             var filter = Builders<Movie>.Filter.Eq(movie => movie.Id, movieIdValue);
             var update = Builders<Movie>.Update.Set(movie => movie.Metacritic, rating);
@@ -173,10 +186,23 @@ namespace MFlix.Data.Movies
                 )
                 .ConfigureAwait(false);
 
-            if (movie is null)
-                throw new MongoException($"The method '{nameof(SaveMetacriticRating)}' failed. It's likely that a movie having id '{movieId}' could not be found.");
+            return movie?.Metacritic ?? throw NewEntityNotFoundException(nameof(SaveMetacriticRating), movieId);
+        }
 
-            return movie.Metacritic;
+        private static EntityNotFoundException NewEntityNotFoundException(string method, string id)
+        {
+            return new($"The method '{method}' failed. A movie having id '{id}' could not be found.")
+            {
+                EntityId = id,
+                EntityName = nameof(Movie),
+                EntityType = typeof(Movie).ToString()
+            };
+        }
+
+        private static ArgumentException NewInvalidMovieIdArgumentException(string movieId)
+        {
+            return new ArgumentException($"Invalid '{nameof(movieId)}' specified."
+                + $" The value '{movieId}' is an invalid MongoDB ObjectId", nameof(movieId));
         }
     }
 }
