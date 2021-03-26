@@ -4,6 +4,12 @@ A showcase of how to build API's (REST, gRPC, GraphQL) using C# .NET.
 
 I chose _MFlix_ as the name for this project because I am using one of the sample databases provided by MongoDB called MFlix. The MFlix database is composed of collections of movie related data. I provide more detail in the MongoDB section where I explain how to get a copy of the MFlix database. Therefore, because of the database name, and the fact that _MFlix_ is a short and catchy name, I decided to go with _MFlix_.
 
+- [1. Purpose](#1-purpose)
+- [2. Description](#2-description)
+- [3. Infrastructure](#3-infrastructure)
+- [4. Getting Started](#4-getting-started)
+- [5. Test MFlix gRPC services](#5-test-mflix-grpc-services)
+
 ---
 
 ## 1. Purpose
@@ -211,7 +217,25 @@ The `docker-compose.yaml` file defines the stack that will be used for all _MFli
 
 ## 4. Getting Started
 
-### 4.1 Infrastructure
+Follow the following steps to get up and running:
+
+- Get the code
+- Manage infrastructure
+- Start MFlix gRpc API
+
+### 4.1 Get The Code
+
+Use any of the following options to get a copy of the code:
+
+```bash
+# Download Zip File
+wget https://github.com/drminnaar/mflix/archive/refs/heads/main.zip
+
+# Clone
+git clone https://github.com/drminnaar/mflix.git
+```
+
+### 4.2 Manage Infrastructure
 
 The complete _MFlix_ infrastructure is defined in a `docker-compose.yaml` stack. One could use _docker-compose_ commands to manage that stack. However, I think the easiest way to manage the stack is to use a task runner to execute commands relating to the management of the stack. I've decided to use _[npm]_ for my task runner. Although _[npm]_ is a package manager for the JavaScript programming language, it happens to make a good simple task runner as well. The tasks are defined as follows:
 
@@ -228,7 +252,7 @@ The complete _MFlix_ infrastructure is defined in a `docker-compose.yaml` stack.
 }
 ```
 
-#### 4.1.1 Manage Stack
+#### 4.2.1 Start Stack
 
 To start infrastructure services,
 
@@ -244,6 +268,8 @@ docker-compose -f ./fabric/docker-compose.yaml up --build --detach && docker-com
 
 ![mflix-npm-up](https://user-images.githubusercontent.com/33935506/111884357-1de6fe00-8a26-11eb-96d2-48246141b4d5.png)
 
+#### 4.2.2 Stop Stack
+
 To stop infrastructure services,
 
 ```bash
@@ -258,45 +284,592 @@ docker-compose -f ./fabric/docker-compose.yaml down --volumes && docker-compose 
 
 ![mflix-npm-down](https://user-images.githubusercontent.com/33935506/111884354-1cb5d100-8a26-11eb-95ea-f5182c20ceb4.png)
 
-Alternatively, one can install an _[npm extension](https://github.com/Microsoft/vscode-npm-scripts)_ and run the your _npm_ tasks as follows:
+#### 4.2.3 Describe Stack
 
-![npm-task-runner-720](https://user-images.githubusercontent.com/33935506/111884505-e9277680-8a26-11eb-82b4-54d7af16931b.gif)
+To describe infrastructure services,
 
-#### 4.1.2 Test Stack
+```bash
+npm run describe
+```
 
-To check the status of stack, run the following command:
+The above command will use the `docker-compose.yaml` stack to display a summary of the stack services. The summary should be empty if all services were stopped and removed successfully. The task is defined as follows:
+
+```bash
+docker-compose -f ./fabric/docker-compose.yaml config --services
+```
+
+![mflix-npm-describe](https://user-images.githubusercontent.com/33935506/112548500-363d8b00-8e21-11eb-81a0-6e9db9a7d174.png)
+
+#### 4.2.4 Get Stack Status
+
+To get the current status of infrastructure services,
 
 ```bash
 npm run status
 ```
 
-The above command should display a summary that lists the services that are running.
-
-![mflix-npm-status](https://user-images.githubusercontent.com/33935506/111885399-62759800-8a2c-11eb-8d4f-96b85e94413e.png)
-
-Open MongoDB shell
+The above command will use the `docker-compose.yaml` stack to display a detailed summary of the stack services with their corresponding status. The summary should be empty if all services were stopped and removed successfully. The task is defined as follows:
 
 ```bash
-mongo --host localhost --port 27017 --username dbadmin --password password
+docker-compose -f ./fabric/docker-compose.yaml config ps
 ```
 
-![mflix-mongo-shell](https://user-images.githubusercontent.com/33935506/111885737-85a14700-8a2e-11eb-8e1d-a8793a5e9efc.png)
+![mflix-npm-status](https://user-images.githubusercontent.com/33935506/112549384-95e86600-8e22-11eb-8c95-1416ff3f7bd3.png)
 
-Open Mongo Express
+#### 4.2.5 Manage Stack Using NPM
+
+Alternatively, one can install an _[npm extension](https://github.com/Microsoft/vscode-npm-scripts)_ and run the your _npm_ tasks as follows:
+
+![npm-task-runner-720](https://user-images.githubusercontent.com/33935506/111884505-e9277680-8a26-11eb-82b4-54d7af16931b.gif)
+
+#### 4.2.6 Test Stack
+
+There are currently 3 services that will mostly be used. The services are listed as follows:
+
+- MongoDB
+
+  ```bash
+  mongo --host localhost --port 27017 --username dbadmin --password password
+  ```
+
+  ![mflix-mongo-shell](https://user-images.githubusercontent.com/33935506/111885737-85a14700-8a2e-11eb-8e1d-a8793a5e9efc.png)
+
+- MongoDB Express
+
+  ```bash
+  navigate to http://localhost:8081
+  ```
+
+  ![mflix-mongo-express](https://user-images.githubusercontent.com/33935506/111885741-86d27400-8a2e-11eb-823d-a6988f30f770.png)
+
+- SEQ Log Server
+
+  ```bash
+  navigate to http://localhost:8082
+  ```
+
+  ![mflix-seq](https://user-images.githubusercontent.com/33935506/111885740-86d27400-8a2e-11eb-953b-a359816a2928.png)
+
+### 4.3 Start MFlix gRpc API
+
+Use any of the following options to start the MFlix gRpc API:
 
 ```bash
-navigate to http://localhost:8081
+# Use dotnet cli command
+dotnet watch run --project ./src/MFlix.GrpcApi/MFlix.GrpcApi.csproj
 ```
-
-![mflix-mongo-express](https://user-images.githubusercontent.com/33935506/111885741-86d27400-8a2e-11eb-823d-a6988f30f770.png)
-
-Open SEQ log server
 
 ```bash
-navigate to http://localhost:8082
+# Use NPM task runner
+npm run start:grpc
 ```
 
-![mflix-seq](https://user-images.githubusercontent.com/33935506/111885740-86d27400-8a2e-11eb-953b-a359816a2928.png)
+---
+
+## 5. Test MFlix gRPC Services
+
+Before testing the gRPC services that are defined by the MFlix gRPC server, you will need the following:
+
+- All infrastructure services must be started
+- the MFlix gRPC API must be started
+
+See the [Getting Started Section](#4-getting-started) to get more information.
+
+I recommend the following tools for testing gRPC services:
+
+- [gRPCurl](#51-grpcurl)
+- [gRPCUI](#52-grpcui)
+- [BloomRPC](#53-bloomrpc)
+- [Insomnia](#54-insomnia)
+
+### 5.1 gRPCurl
+
+You will need to have [golang (go)](https://golang.org/) installed before installing `gRPCurl`. See the install instructions at the [official golang documentation](https://golang.org/doc/install).
+
+All the following commands have been tested on the [cross-platform (Windows, Linux, and macOS) Powershell](https://github.com/PowerShell/PowerShell)
+
+### 5.1.1 Install gRPCurl
+
+```powershell
+# install grpcurl using go
+go get github.com/fullstorydev/grpcurl/...
+go install github.com/fullstorydev/grpcurl/cmd/grpcurl
+
+# after install
+grpcurl -version
+
+# OUTPUT:
+grpcurl.exe v1.7.0
+```
+
+### 5.1.2 Use gRPCurl
+
+#### Get Help
+
+```powershell
+# INPUT:
+grpcurl -h
+```
+
+#### List Available Services
+
+```powershell
+# INPUT:
+grpcurl localhost:5001 list
+
+# OUTPUT:
+grpc.reflection.v1alpha.ServerReflection
+mflix.services.MovieService
+```
+
+#### Describe Available Services (Detailed List)
+
+```powershell
+# INPUT:
+grpcurl localhost:5001 describe
+
+# OUTPUT:
+grpc.reflection.v1alpha.ServerReflection is a service:
+service ServerReflection {
+  rpc ServerReflectionInfo ( stream .grpc.reflection.v1alpha.ServerReflectionRequest ) returns ( stream .grpc.reflection.v1alpha.ServerReflectionResponse );
+}
+mflix.services.MovieService is a service:
+service MovieService {
+  rpc DeleteMovie ( .mflix.services.DeleteMovieRequest ) returns ( .mflix.services.DeleteMovieResponse );
+  rpc GetMovieById ( .mflix.services.GetMovieByIdRequest ) returns ( .mflix.services.GetMovieByIdResponse );
+  rpc GetMovieList ( .mflix.services.GetMovieListRequest ) returns ( .mflix.services.GetMovieListResponse );
+  rpc SaveImdbRating ( .mflix.services.SaveImdbRatingRequest ) returns ( .mflix.services.SaveImdbRatingResponse );
+  rpc SaveMetacriticRating ( .mflix.services.SaveMetacriticRatingRequest ) returns ( .mflix.services.SaveMetacriticRatingResponse );
+  rpc SaveMovie ( .mflix.services.SaveMovieRequest ) returns ( .mflix.services.SaveMovieResponse );
+  rpc SaveTomatoesRating ( .mflix.services.SaveTomatoesRatingRequest ) returns ( .mflix.services.SaveTomatoesRatingResponse );
+}
+```
+
+#### Describe Movie Service
+
+```powershell
+#INPUT:
+grpcurl localhost:5001 describe mflix.services.MovieService
+
+# OUTPUT:
+mflix.services.MovieService is a service:
+service MovieService {
+  rpc DeleteMovie ( .mflix.services.DeleteMovieRequest ) returns ( .mflix.services.DeleteMovieResponse );
+  rpc GetMovieById ( .mflix.services.GetMovieByIdRequest ) returns ( .mflix.services.GetMovieByIdResponse );
+  rpc GetMovieList ( .mflix.services.GetMovieListRequest ) returns ( .mflix.services.GetMovieListResponse );
+  rpc SaveImdbRating ( .mflix.services.SaveImdbRatingRequest ) returns ( .mflix.services.SaveImdbRatingResponse );
+  rpc SaveMetacriticRating ( .mflix.services.SaveMetacriticRatingRequest ) returns ( .mflix.services.SaveMetacriticRatingResponse );
+  rpc SaveMovie ( .mflix.services.SaveMovieRequest ) returns ( .mflix.services.SaveMovieResponse );
+  rpc SaveTomatoesRating ( .mflix.services.SaveTomatoesRatingRequest ) returns ( .mflix.services.SaveTomatoesRatingResponse );
+}
+```
+
+#### List Movie Service Methods
+
+```powershell
+# INPUT: list methods for MovieService
+grpcurl localhost:5001 list mflix.services.MovieService
+
+# OUTPUT:
+mflix.services.MovieService.DeleteMovie
+mflix.services.MovieService.GetMovieById
+mflix.services.MovieService.GetMovieList
+mflix.services.MovieService.SaveImdbRating
+mflix.services.MovieService.SaveMetacriticRating
+mflix.services.MovieService.SaveMovie
+mflix.services.MovieService.SaveTomatoesRating
+```
+
+#### Describe Requests
+
+```powershell
+# INPUT:
+grpcurl localhost:5001 describe mflix.services.GetMovieListRequest
+
+# OUTPUT
+mflix.services.GetMovieListRequest is a message:
+message GetMovieListRequest {
+  .mflix.services.MovieOptions options = 1;
+}
+
+
+# INPUT:
+grpcurl localhost:5001 describe mflix.services.MovieOptions
+
+# OUTPUT
+mflix.services.MovieOptions is a message:
+message MovieOptions {
+  int32 pageNumber = 1;
+  int32 pageSize = 2;
+  repeated string sortBy = 3;
+  string title = 4;
+  string rated = 5;
+  string runtime = 6;
+  string year = 7;
+  string type = 8;
+  repeated string cast = 9;
+  repeated string genres = 10;
+  repeated string directors = 11;
+}
+```
+
+#### Get Movie By Id
+
+```powershell
+# INPUT
+$request = @'
+{
+  \"movieId\": \"573a1397f29313caabce68f6\"
+}
+'@
+
+grpcurl -d $request localhost:5001 mflix.services.MovieService/GetMovieById
+
+
+# OUTPUT:
+{
+  "movie": {
+    "id": "573a1397f29313caabce68f6",
+    "title": "Star Wars: Episode IV - A New Hope",
+    "runtime": 121,
+    "rated": "PG",
+    "year": 1977,
+    "poster": "https://m.media-amazon.com/images/M/MV5BNzVlY2MwMjktM2E4OS00Y2Y3LWE3ZjctYzhkZGM3YzA1ZWM2XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SY1000_SX677_AL_.jpg",
+    "imdb": {
+      "rating": 8.7,
+      "votes": 773938,
+      "id": 76759
+    },
+    "tomatoes": {
+      "consensus": "A legendarily expansive and ambitious start to the sci-fi saga, George Lucas opened our eyes to the possiblites of blockbuster filmmaking and things have never been the same.",
+      "critic": {
+        "rating": 8.5,
+        "numReviews": 82,
+        "meter": 94
+      },
+      "dvd": "2004-09-21T00:00:00Z",
+      "fresh": 77,
+      "lastUpdated": "2015-09-12T17:04:03Z",
+      "production": "20th Century Fox",
+      "rotten": 5,
+      "viewer": {
+        "rating": 4.1,
+        "numReviews": 848179,
+        "meter": 96
+      },
+      "website": "http://www.starwars.com/episode-iv/"
+    },
+    "cast": [
+      "Mark Hamill",
+      "Harrison Ford",
+      "Carrie Fisher",
+      "Peter Cushing"
+    ],
+    "genres": [
+      "Action",
+      "Adventure",
+      "Fantasy"
+    ],
+    "directors": [
+      "George Lucas"
+    ]
+  }
+}
+```
+
+#### Get List Of Movies
+
+```powershell
+# INPUT
+$request = @'
+{
+    \"options\": {
+    \"pageNumber\": 1,
+    \"pageSize\": 20,
+    \"sortBy\": [\"-year\"],
+    \"title\": \"batman\",
+    \"rated\": \"\",
+    \"runtime\": \"\",
+    \"year\": \"gte:2000\",
+    \"type\": \"\",
+    \"cast\": [],
+    \"genres\": [],
+    \"directors\": []
+  }
+}
+'@
+
+grpcurl -d $request localhost:5001 mflix.services.MovieService/GetMovieList
+
+# OUTPUT
+{
+  "movies": [ ... ],
+  "pageInfo": {
+    "currentPageNumber": 1,
+    "nextPageNumber": 0,
+    "previousPageNumber": 0,
+    "lastPageNumber": 1,
+    "itemCount": "11",
+    "pageSize": 20,
+    "pageCount": 1,
+    "hasPrevious": false,
+    "hasNext": false
+  }
+}
+```
+
+#### Save Movie
+
+```powershell
+# INPUT:
+$request = @'
+{
+    \"movie\": {
+        \"id\": \"\",
+        \"title\": \"API Wars\",
+        \"plot\": \"One APIs great struggle against all odds to be the number one API .... in the world!\",
+        \"runtime\": 120,
+        \"rated\": \"PG\",
+        \"year\": 2021,
+        \"poster\": \"https://picsum.photos/200/300\",
+        \"released\": \"2021-03-26T00:00:00Z\",
+        \"genres\": [\"Action\"],
+        \"cast\": [\"gRPC\",\"REST\",\"GraphQL\"],
+        \"directors\": [\"Douglas Minnaar\"]
+    }
+}
+'@
+
+grpcurl -d $request localhost:5001 mflix.services.MovieService/SaveMovie
+
+
+# OUTPUT:
+{
+  "movieId": "605d5276f164eea829cdc9a0"
+}
+```
+
+#### Save IMDB Rating
+
+```powershell
+# INPUT:
+$request = @'
+{
+    \"movieId\": \"573a1397f29313caabce68f6\",
+    \"imdb\": {
+        \"rating\": 5.4,
+        \"votes\": 104354,
+        \"id\": 10384738
+    }
+}
+'@
+
+grpcurl -d $request localhost:5001 mflix.services.MovieService/SaveImdbRating
+
+
+# OUTPUT:
+{
+  "imdb": {
+    "rating": 5.4,
+    "votes": 104354,
+    "id": 10384738
+  }
+}
+```
+
+#### Save Tomatoes Rating
+
+```powershell
+# INPUT:
+$request = @'
+{
+    \"movieId\": \"573a1397f29313caabce68f6\",
+    \"tomatoes\": {
+        \"boxOffice\": \"\",
+        \"consensus\": \"A legendary movie about legends\",
+        \"critic\": {
+          \"rating\": 1.4,
+          \"numReviews\": 10,
+          \"meter\": 10
+        },
+        \"dvd\": \"2021-03-26T00:00:00Z\",
+        \"fresh\": 65,
+        \"lastUpdated\": \"2021-03-26T00:00:00Z\",
+        \"production\": \"20th Century Fox\",
+        \"rotten\": 10,
+        \"viewer\": {
+          \"rating\": 16.4,
+          \"numReviews\": 130,
+          \"meter\": 1055
+        },
+        \"website\": \"http://www.example.com\"
+    }
+}
+'@
+
+grpcurl -d $request localhost:5001 mflix.services.MovieService/SaveTomatoesRating
+
+
+# OUTPUT:
+{
+  "tomatoes": {
+    "consensus": "A legendary movie about legends",
+    "critic": {
+      "rating": 1.4,
+      "numReviews": 10,
+      "meter": 10
+    },
+    "dvd": "2021-03-26T00:00:00Z",
+    "fresh": 65,
+    "lastUpdated": "2021-03-26T00:00:00Z",
+    "production": "20th Century Fox",
+    "rotten": 10,
+    "viewer": {
+      "rating": 16.4,
+      "numReviews": 130,
+      "meter": 1055
+    },
+    "website": "http://www.example.com"
+  }
+}
+```
+
+#### Save Metacritic Rating
+
+```powershell
+# INPUT:
+$request = @'
+{
+    \"movieId\": \"573a1397f29313caabce68f6\",
+    \"metacriticRating\": 89
+}
+'@
+
+grpcurl -d $request localhost:5001 mflix.services.MovieService/SaveMetacriticRating
+
+
+# OUTPUT
+{
+  "metacriticRating": 89
+}
+```
+
+#### Delete Movie
+
+```powershell
+# INPUT:
+$request = @'
+{
+    \"movieId\": \"573a1397f29313caabce68f6\"
+}
+'@
+
+grpcurl -d $request localhost:5001 mflix.services.MovieService/DeleteMovie
+
+
+# OUTPUT
+{
+  "movieId": "573a1397f29313caabce68f6"
+}
+```
+
+### 5.2 gRPCUI
+
+[gRPCUI](https://github.com/fullstorydev/grpcui) is a command-line tool that lets you interact with gRPC servers via a browser.
+
+You will need to have [golang (go)](https://golang.org/) installed before installing `gRPCurl`. See the install instructions at the [official golang documentation](https://golang.org/doc/install).
+
+All the following commands have been tested on the [cross-platform (Windows, Linux, and macOS) Powershell](https://github.com/PowerShell/PowerShell)
+
+### 5.2.1 Install gRPCUI
+
+```powershell
+# install grpcui using go
+go get github.com/fullstorydev/grpcui/...
+go install github.com/fullstorydev/grpcui/cmd/grpcui
+
+# after install
+grpcui -version
+```
+
+### 5.2.2 Run gRPCUI
+
+```powershell
+grpcui localhost:5001
+
+# OUTPUT:
+gRPC Web UI available at http://127.0.0.1:63382/
+```
+
+#### Build Form Request
+
+![grpcui-request-form](https://user-images.githubusercontent.com/33935506/112590301-7a537e80-8e67-11eb-90a7-10456de60fd8.png)
+
+#### Build JSON Request
+
+![grpcui-request-json](https://user-images.githubusercontent.com/33935506/112590303-7b84ab80-8e67-11eb-8e96-16effb53f2fd.png)
+
+#### Response
+
+![grpcui-response](https://user-images.githubusercontent.com/33935506/112590305-7b84ab80-8e67-11eb-92e8-dfa6a2c4ea9d.png)
+
+### 5.3 BloomRPC
+
+[BloomRPC](https://github.com/uw-labs/bloomrpc) aims to provide the simplest and most efficient developer experience for exploring and querying your GRPC services.
+
+- Supports all major operating systems (MacOS / Windows / Linux Deb - Arch Linux)
+- Native GRPC calls
+- Unary Calls and Server Side Streaming Support
+- Client side and Bi-directional Streaming
+- Automatic Input recognition
+- Multi tabs operations
+- Metadata support
+- Persistent Workspace
+- Request Cancellation
+
+### 5.3.1 Install
+
+- Mac Install
+
+  ```bash
+  brew install --cask bloomrpc
+  ```
+
+- Windows Install
+
+  ```bash
+  # install using chocolatey
+  choco install bloomrpc
+  ```
+
+### 5.3.2 Run BloomRPC
+
+![bloomrpc](https://user-images.githubusercontent.com/33935506/112591118-bd622180-8e68-11eb-943e-2a2f3a997872.png)
+
+### 5.4 Insomnia
+
+[Insomnia](https://insomnia.rest/) is an Open Source API client, and collaborative API design platform for REST, SOAP, GraphQL, and GRPC.
+
+- Organize requests
+- Manage multiple environments
+- Supports multiple protocols (gRPC, GraphQL, REST, SOAP)
+- Theme Support
+
+[Find a list of downloads here](https://github.com/kong/insomnia/releases/tag/core@2021.2.1).
+
+For Windows, you can also install with chocolatey
+
+```powershell
+choco install insomnia-rest-api-client
+```
+
+#### Get Movie By Id
+
+![insomnia-getmoviebyid](https://user-images.githubusercontent.com/33935506/112592708-48441b80-8e6b-11eb-9149-d241c93b5fe0.png)
+
+#### Save Movie
+
+![insomnia-savemovie](https://user-images.githubusercontent.com/33935506/112594530-fb157900-8e6d-11eb-99e8-fa11d4b717c6.png)
 
 ---
 
