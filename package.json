@@ -5,6 +5,8 @@
     "up": "docker-compose -f ./fabric/docker-compose.yaml up --build --detach && docker-compose -f ./fabric/docker-compose.yaml ps",
     "down": "docker-compose -f ./fabric/docker-compose.yaml down --volumes && docker-compose -f ./fabric/docker-compose.yaml ps",
     "status": "docker-compose -f ./fabric/docker-compose.yaml ps",
-    "describe": "docker-compose -f ./fabric/docker-compose.yaml config --services"
+    "describe": "docker-compose -f ./fabric/docker-compose.yaml config --services",
+    "start:grpc": "dotnet watch run --project ./src/MFlix.GrpcApi/MFlix.GrpcApi.csproj",
+    "start:grpcui": "grpcui localhost:5001"
   }
 }
