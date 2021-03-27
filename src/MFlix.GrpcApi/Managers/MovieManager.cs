@@ -14,15 +14,18 @@ namespace MFlix.GrpcApi.Managers
         private readonly IMovieDao _movieDao;
         private readonly IMapper _mapper;
         private readonly MessageValidatorBase<Services.MovieForSave> _movieForSaveValidator;
+        private readonly MessageValidatorBase<Services.SaveImdbRatingRequest> _imdbForSaveValidator;
 
         public MovieManager(
             IMovieDao movieDao,
             IMapper mapper,
-            MessageValidatorBase<Services.MovieForSave> movieForSaveValidator)
+            MessageValidatorBase<Services.MovieForSave> movieForSaveValidator,
+            MessageValidatorBase<Services.SaveImdbRatingRequest> imdbForSaveValidator)
         {
             _movieDao = movieDao ?? throw new ArgumentNullException(nameof(movieDao));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _movieForSaveValidator = movieForSaveValidator ?? throw new ArgumentNullException(nameof(movieForSaveValidator));
+            _imdbForSaveValidator = imdbForSaveValidator ?? throw new ArgumentNullException(nameof(imdbForSaveValidator));
         }
 
         public override async Task<Services.DeleteMovieResponse> DeleteMovie(Services.DeleteMovieRequest request, ServerCallContext context)
@@ -76,11 +79,9 @@ namespace MFlix.GrpcApi.Managers
             if (request is null) throw new ArgumentNullException(nameof(request));
 
             if (!_movieForSaveValidator.IsValid(request.Movie, out var trailers))
-                throw new RpcException(new Status(StatusCode.InvalidArgument, "Invalid movie for save"), trailers);
+                throw NewInvalidArgumentRpcException("Invalid movie", trailers);
 
-            var movie = _mapper
-                .Map<Movie>(request.Movie)
-                ?? throw new InvalidOperationException("Mapping of movie returned a null");
+            var movie = _mapper.Map<Movie>(request.Movie);
 
             var movieId = await _movieDao
                 .SaveMovie(movie)
@@ -94,6 +95,11 @@ namespace MFlix.GrpcApi.Managers
 
         public override async Task<Services.SaveImdbRatingResponse> SaveImdbRating(Services.SaveImdbRatingRequest request, ServerCallContext context)
         {
+            if (request is null) throw new ArgumentNullException(nameof(request));
+
+            if (!_imdbForSaveValidator.IsValid(request, out var trailers))
+                throw NewInvalidArgumentRpcException("Invalid Imdb details", trailers);
+
             var imdbRating = _mapper.Map<ImdbRating>(request.Imdb);
 
             var imdbRatingFromSave = await _movieDao
@@ -131,5 +137,8 @@ namespace MFlix.GrpcApi.Managers
                 MetacriticRating = metacriticRating
             };
         }
+
+        private static RpcException NewInvalidArgumentRpcException(string message, Metadata trailers) =>
+            new(new Status(StatusCode.InvalidArgument, message), trailers);
     }
 }
