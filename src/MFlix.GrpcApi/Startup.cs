@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Reflection;
 using MFlix.Data.DependencyInjection;
+using MFlix.GrpcApi.Infrastructure.DependencyInjection;
 using MFlix.GrpcApi.Infrastructure.Interceptors;
 using MFlix.GrpcApi.Managers;
-using MFlix.GrpcApi.Managers.Validators;
-using MFlix.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -30,11 +29,8 @@ namespace MFlix.GrpcApi
         {
             services.ConfigureDataServices(_configuration);
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            services.AddTransient<MessageValidatorBase<MovieForSave>, MovieForSaveValidator>();
-            services.AddTransient<MessageValidatorBase<SaveImdbRatingRequest>, SaveImdbRatingRequestValidator>();
-            services.AddTransient<MessageValidatorBase<SaveTomatoesRatingRequest>, SaveTomatoesRatingRequestValidator>();
-            services.AddTransient<MovieService.MovieServiceBase, MovieManager>();
-
+            services.ConfigureValidators();
+            services.ConfigureManagers();
             services.AddGrpc(options =>
             {
                 options.EnableDetailedErrors = _environment.IsDevelopment();

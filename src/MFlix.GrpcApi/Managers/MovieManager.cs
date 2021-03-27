@@ -13,22 +13,16 @@ namespace MFlix.GrpcApi.Managers
     {
         private readonly IMovieDao _movieDao;
         private readonly IMapper _mapper;
-        private readonly MessageValidatorBase<Services.MovieForSave> _movieForSaveValidator;
-        private readonly MessageValidatorBase<Services.SaveImdbRatingRequest> _imdbForSaveValidator;
-        private readonly MessageValidatorBase<Services.SaveTomatoesRatingRequest> _saveTomatoesRatingRequestValidator;
+        private readonly IMovieServiceValidator _validator;
 
         public MovieManager(
             IMovieDao movieDao,
             IMapper mapper,
-            MessageValidatorBase<Services.MovieForSave> movieForSaveValidator,
-            MessageValidatorBase<Services.SaveImdbRatingRequest> imdbForSaveValidator,
-            MessageValidatorBase<Services.SaveTomatoesRatingRequest> saveTomatoesRatingRequestValidator)
+            IMovieServiceValidator validator)
         {
             _movieDao = movieDao ?? throw new ArgumentNullException(nameof(movieDao));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            _movieForSaveValidator = movieForSaveValidator ?? throw new ArgumentNullException(nameof(movieForSaveValidator));
-            _imdbForSaveValidator = imdbForSaveValidator ?? throw new ArgumentNullException(nameof(imdbForSaveValidator));
-            _saveTomatoesRatingRequestValidator = saveTomatoesRatingRequestValidator ?? throw new ArgumentNullException(nameof(saveTomatoesRatingRequestValidator));
+            _validator = validator ?? throw new ArgumentNullException(nameof(validator));
         }
 
         public override async Task<Services.DeleteMovieResponse> DeleteMovie(Services.DeleteMovieRequest request, ServerCallContext context)
@@ -81,7 +75,7 @@ namespace MFlix.GrpcApi.Managers
         {
             if (request is null) throw new ArgumentNullException(nameof(request));
 
-            if (!_movieForSaveValidator.IsValid(request.Movie, out var trailers))
+            if (!_validator.IsValidMovieForSave(request, out var trailers))
                 throw NewInvalidArgumentRpcException("Invalid movie", trailers);
 
             var movie = _mapper.Map<Movie>(request.Movie);
@@ -100,7 +94,7 @@ namespace MFlix.GrpcApi.Managers
         {
             if (request is null) throw new ArgumentNullException(nameof(request));
 
-            if (!_imdbForSaveValidator.IsValid(request, out var trailers))
+            if (!_validator.IsValidImdbRatingForSave(request, out var trailers))
                 throw NewInvalidArgumentRpcException("Invalid Imdb details", trailers);
 
             var imdbRating = _mapper.Map<ImdbRating>(request.Imdb);
@@ -119,7 +113,7 @@ namespace MFlix.GrpcApi.Managers
         {
             if (request is null) throw new ArgumentNullException(nameof(request));
 
-            if (!_saveTomatoesRatingRequestValidator.IsValid(request, out var trailers))
+            if (!_validator.IsValidTomatoesRatingForSave(request, out var trailers))
                 throw NewInvalidArgumentRpcException("Invalid tomatoes details", trailers);
 
             var tomatoesRating = _mapper.Map<TomatoesRating>(request.Tomatoes);
