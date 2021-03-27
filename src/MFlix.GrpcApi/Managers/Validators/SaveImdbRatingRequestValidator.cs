@@ -12,10 +12,8 @@ namespace MFlix.GrpcApi.Managers.Validators
             ApplyMovieIdRule();
         }
 
-        private void ApplyMovieRule()
-        {
+        private void ApplyMovieRule() =>
             RuleFor(request => request.Imdb).SetValidator(new ImdbRatingForSaveValidator());
-        }
 
         private void ApplyMovieIdRule()
         {
