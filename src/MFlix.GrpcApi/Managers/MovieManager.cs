@@ -15,17 +15,20 @@ namespace MFlix.GrpcApi.Managers
         private readonly IMapper _mapper;
         private readonly MessageValidatorBase<Services.MovieForSave> _movieForSaveValidator;
         private readonly MessageValidatorBase<Services.SaveImdbRatingRequest> _imdbForSaveValidator;
+        private readonly MessageValidatorBase<Services.SaveTomatoesRatingRequest> _saveTomatoesRatingRequestValidator;
 
         public MovieManager(
             IMovieDao movieDao,
             IMapper mapper,
             MessageValidatorBase<Services.MovieForSave> movieForSaveValidator,
-            MessageValidatorBase<Services.SaveImdbRatingRequest> imdbForSaveValidator)
+            MessageValidatorBase<Services.SaveImdbRatingRequest> imdbForSaveValidator,
+            MessageValidatorBase<Services.SaveTomatoesRatingRequest> saveTomatoesRatingRequestValidator)
         {
             _movieDao = movieDao ?? throw new ArgumentNullException(nameof(movieDao));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _movieForSaveValidator = movieForSaveValidator ?? throw new ArgumentNullException(nameof(movieForSaveValidator));
             _imdbForSaveValidator = imdbForSaveValidator ?? throw new ArgumentNullException(nameof(imdbForSaveValidator));
+            _saveTomatoesRatingRequestValidator = saveTomatoesRatingRequestValidator ?? throw new ArgumentNullException(nameof(saveTomatoesRatingRequestValidator));
         }
 
         public override async Task<Services.DeleteMovieResponse> DeleteMovie(Services.DeleteMovieRequest request, ServerCallContext context)
@@ -114,6 +117,11 @@ namespace MFlix.GrpcApi.Managers
 
         public override async Task<Services.SaveTomatoesRatingResponse> SaveTomatoesRating(Services.SaveTomatoesRatingRequest request, ServerCallContext context)
         {
+            if (request is null) throw new ArgumentNullException(nameof(request));
+
+            if (!_saveTomatoesRatingRequestValidator.IsValid(request, out var trailers))
+                throw NewInvalidArgumentRpcException("Invalid tomatoes details", trailers);
+
             var tomatoesRating = _mapper.Map<TomatoesRating>(request.Tomatoes);
 
             var tomatoesRatingFromSave = await _movieDao

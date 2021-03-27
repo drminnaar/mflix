@@ -32,6 +32,7 @@ namespace MFlix.GrpcApi
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddTransient<MessageValidatorBase<MovieForSave>, MovieForSaveValidator>();
             services.AddTransient<MessageValidatorBase<SaveImdbRatingRequest>, SaveImdbRatingRequestValidator>();
+            services.AddTransient<MessageValidatorBase<SaveTomatoesRatingRequest>, SaveTomatoesRatingRequestValidator>();
             services.AddTransient<MovieService.MovieServiceBase, MovieManager>();
 
             services.AddGrpc(options =>
