@@ -5,6 +5,7 @@ using AutoMapper;
 using Grpc.Core;
 using MFlix.Data.Movies;
 using MFlix.Data.Movies.Models;
+using MFlix.GrpcApi.Managers.Validators;
 
 namespace MFlix.GrpcApi.Managers
 {
@@ -12,11 +13,16 @@ namespace MFlix.GrpcApi.Managers
     {
         private readonly IMovieDao _movieDao;
         private readonly IMapper _mapper;
+        private readonly MessageValidatorBase<Services.MovieForSave> _movieForSaveValidator;
 
-        public MovieManager(IMovieDao movieDao, IMapper mapper)
+        public MovieManager(
+            IMovieDao movieDao,
+            IMapper mapper,
+            MessageValidatorBase<Services.MovieForSave> movieForSaveValidator)
         {
             _movieDao = movieDao ?? throw new ArgumentNullException(nameof(movieDao));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _movieForSaveValidator = movieForSaveValidator ?? throw new ArgumentNullException(nameof(movieForSaveValidator));
         }
 
         public override async Task<Services.DeleteMovieResponse> DeleteMovie(Services.DeleteMovieRequest request, ServerCallContext context)
@@ -67,7 +73,14 @@ namespace MFlix.GrpcApi.Managers
 
         public override async Task<Services.SaveMovieResponse> SaveMovie(Services.SaveMovieRequest request, ServerCallContext context)
         {
-            var movie = _mapper.Map<Movie>(request.Movie);
+            if (request is null) throw new ArgumentNullException(nameof(request));
+
+            if (!_movieForSaveValidator.IsValid(request.Movie, out var trailers))
+                throw new RpcException(new Status(StatusCode.InvalidArgument, "Invalid movie for save"), trailers);
+
+            var movie = _mapper
+                .Map<Movie>(request.Movie)
+                ?? throw new InvalidOperationException("Mapping of movie returned a null");
 
             var movieId = await _movieDao
                 .SaveMovie(movie)

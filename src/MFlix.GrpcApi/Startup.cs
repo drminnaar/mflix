@@ -3,6 +3,7 @@ using System.Reflection;
 using MFlix.Data.DependencyInjection;
 using MFlix.GrpcApi.Infrastructure.Interceptors;
 using MFlix.GrpcApi.Managers;
+using MFlix.GrpcApi.Managers.Validators;
 using MFlix.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,6 +30,7 @@ namespace MFlix.GrpcApi
         {
             services.ConfigureDataServices(_configuration);
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddTransient<MessageValidatorBase<MovieForSave>, MovieForSaveValidator>();
             services.AddTransient<MovieService.MovieServiceBase, MovieManager>();
 
             services.AddGrpc(options =>
