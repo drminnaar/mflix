@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Grpc.Core;
 using MFlix.Services;
 
@@ -6,6 +6,7 @@ namespace MFlix.GrpcApi.Managers.Validators
 {
     public interface IMovieServiceValidator
     {
+        bool IsValidGetMovieByIdRequest(GetMovieByIdRequest request, out Metadata trailers);
         bool IsValidImdbRatingForSave(SaveImdbRatingRequest request, out Metadata trailers);
         bool IsValidMovieForSave(SaveMovieRequest request, out Metadata trailers);
         bool IsValidTomatoesRatingForSave(SaveTomatoesRatingRequest request, out Metadata trailers);
@@ -16,15 +17,25 @@ namespace MFlix.GrpcApi.Managers.Validators
         private readonly MessageValidatorBase<SaveMovieRequest> _saveMovieRequestValidator;
         private readonly MessageValidatorBase<SaveImdbRatingRequest> _saveImdbRatingRequestValidator;
         private readonly MessageValidatorBase<SaveTomatoesRatingRequest> _saveTomatoesRatingRequestValidator;
+        private readonly MessageValidatorBase<GetMovieByIdRequest> _getMovieByIdRequestValidator;
 
         public MovieServiceValidator(
             MessageValidatorBase<SaveMovieRequest> saveMovieRequestValidator,
             MessageValidatorBase<SaveImdbRatingRequest> saveImdbRatingRequestValidator,
-            MessageValidatorBase<SaveTomatoesRatingRequest> saveTomatoesRatingRequestValidator)
+            MessageValidatorBase<SaveTomatoesRatingRequest> saveTomatoesRatingRequestValidator,
+            MessageValidatorBase<GetMovieByIdRequest> getMovieByIdRequestValidator)
         {
             _saveMovieRequestValidator = saveMovieRequestValidator ?? throw new ArgumentNullException(nameof(saveMovieRequestValidator));
             _saveImdbRatingRequestValidator = saveImdbRatingRequestValidator ?? throw new ArgumentNullException(nameof(saveImdbRatingRequestValidator));
             _saveTomatoesRatingRequestValidator = saveTomatoesRatingRequestValidator ?? throw new ArgumentNullException(nameof(saveTomatoesRatingRequestValidator));
+            _getMovieByIdRequestValidator = getMovieByIdRequestValidator ?? throw new ArgumentNullException(nameof(getMovieByIdRequestValidator));
+        }
+
+        public bool IsValidGetMovieByIdRequest(GetMovieByIdRequest request, out Metadata trailers)
+        {
+            if (request is null) throw new ArgumentNullException(nameof(request));
+
+            return _getMovieByIdRequestValidator.IsValid(request, out trailers);
         }
 
         public bool IsValidMovieForSave(SaveMovieRequest request, out Metadata trailers)

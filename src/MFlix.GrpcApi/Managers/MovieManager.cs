@@ -41,6 +41,11 @@ namespace MFlix.GrpcApi.Managers
             Services.GetMovieByIdRequest request,
             ServerCallContext context)
         {
+            if (request is null) throw new ArgumentNullException(nameof(request));
+
+            if (!_validator.IsValidGetMovieByIdRequest(request, out var trailers))
+                throw NewInvalidArgumentRpcException("Invalid movie id", trailers);
+
             var movie = await _movieDao
                 .GetMovieById(request.MovieId)
                 .ConfigureAwait(true);
