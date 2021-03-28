@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.DependencyInjection;
 
+using Serilog;
+
 namespace MFlix.HttpApi
 {
     public sealed class Startup
@@ -26,10 +28,14 @@ namespace MFlix.HttpApi
 
         public void Configure(IApplicationBuilder app)
         {
-            // uncomment below to use error handling middleware instead
-            // but doesn't support xml
+            app.UseSerilogRequestLogging();
+
+            // Custom error handling middleware (no xml support)
             // app.UseMiddleware<ServerErrorHandler>();
+
+            // Use builtin exception handler with custom errors controller
             app.UseExceptionHandler($"/{ErrorsController.ErrorsPath}");
+
             app.UseRouting();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
