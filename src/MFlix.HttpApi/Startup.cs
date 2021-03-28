@@ -1,10 +1,9 @@
 ﻿using System;
+using MFlix.HttpApi.Controllers;
 using MFlix.Services;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 namespace MFlix.HttpApi
 {
@@ -25,13 +24,12 @@ namespace MFlix.HttpApi
                 .AddXmlDataContractSerializerFormatters();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
+            // uncomment below to use error handling middleware instead
+            // but doesn't support xml
+            // app.UseMiddleware<ServerErrorHandler>();
+            app.UseExceptionHandler($"/{ErrorsController.ErrorsPath}");
             app.UseRouting();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
