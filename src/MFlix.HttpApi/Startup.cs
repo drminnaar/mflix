@@ -15,7 +15,10 @@ namespace MFlix.HttpApi
             {
                 options.Address = new Uri("https://localhost:5001");
             });
-            services.AddControllers();
+            services.AddControllers(options =>
+            {
+                options.ReturnHttpNotAcceptable = true;
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
