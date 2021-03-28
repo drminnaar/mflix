@@ -12,11 +12,13 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{87FCAAB8-E0F7-4761-81A5-A969DA1902CC}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		..\package.json = ..\package.json
+		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MFlix.GrpcApi", "MFlix.GrpcApi\MFlix.GrpcApi.csproj", "{9A03D811-6985-464B-B6DD-A0DFB6B108C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MFlix.HttpApi", "MFlix.HttpApi\MFlix.HttpApi.csproj", "{3AA449FD-017C-4123-85CE-76A712FF025B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MFlix.HttpApi", "MFlix.HttpApi\MFlix.HttpApi.csproj", "{3AA449FD-017C-4123-85CE-76A712FF025B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
