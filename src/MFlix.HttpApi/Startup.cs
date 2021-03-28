@@ -1,5 +1,5 @@
 ﻿using System;
-using MFlix.HttpApi.Controllers;
+using MFlix.HttpApi.Infrastructure.Filters;
 using MFlix.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -20,6 +20,9 @@ namespace MFlix.HttpApi
             services
                 .AddControllers(options =>
                 {
+                    // Custom error handling filter
+                    options.Filters.Add<ServerErrorFilter>();
+
                     options.ReturnHttpNotAcceptable = true;
                     options.InputFormatters.Add(new XmlSerializerInputFormatter(options));
                 })
@@ -34,7 +37,7 @@ namespace MFlix.HttpApi
             // app.UseMiddleware<ServerErrorHandler>();
 
             // Use builtin exception handler with custom errors controller
-            app.UseExceptionHandler($"/{ErrorsController.ErrorsPath}");
+            //app.UseExceptionHandler($"/{ErrorsController.ErrorsPath}");
 
             app.UseRouting();
             app.UseAuthorization();
