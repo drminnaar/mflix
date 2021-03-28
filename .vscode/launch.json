@@ -9,11 +9,20 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/src/MFlix.GrpcApi/bin/Debug/net5.0/MFlix.GrpcApi.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/MFlix.GrpcApi",
-            // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": "HttpApi Launch (console)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/MFlix.HttpApi/bin/Debug/net5.0/MFlix.HttpApi.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/MFlix.HttpApi",
             "console": "internalConsole",
             "stopAtEntry": false
         },

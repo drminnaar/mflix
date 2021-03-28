@@ -7,6 +7,8 @@
     "status": "docker-compose -f ./fabric/docker-compose.yaml ps",
     "describe": "docker-compose -f ./fabric/docker-compose.yaml config --services",
     "start:grpc": "dotnet watch run --project ./src/MFlix.GrpcApi/MFlix.GrpcApi.csproj",
-    "start:grpcui": "grpcui localhost:5001"
+    "start:grpcui": "grpcui localhost:5001",
+    "start:http": "dotnet watch run --project ./src/MFlix.HttpApi/MFlix.HttpApi.csproj",
+    "start:apis": "npx concurrently \"npm run start:grpc\" \"npm run start:http\""
   }
 }

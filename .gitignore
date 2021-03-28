@@ -10,3 +10,6 @@
 
 # Exclude appsettings files from source control
 src/MFlix.GrpcApi/appsettings.json
+
+# node
+node_modules

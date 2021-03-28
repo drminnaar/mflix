@@ -1,0 +1,191 @@
+syntax = "proto3";
+option csharp_namespace = "MFlix.Services";
+package mflix.services;
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
+service MovieService {
+    rpc GetMovieById(GetMovieByIdRequest) returns (GetMovieByIdResponse);
+    rpc GetMovieList(GetMovieListRequest) returns (GetMovieListResponse);
+    rpc SaveMovie(SaveMovieRequest) returns (SaveMovieResponse);
+    rpc SaveImdbRating(SaveImdbRatingRequest) returns (SaveImdbRatingResponse);
+    rpc SaveTomatoesRating(SaveTomatoesRatingRequest) returns (SaveTomatoesRatingResponse);
+    rpc SaveMetacriticRating(SaveMetacriticRatingRequest) returns (SaveMetacriticRatingResponse);
+    rpc DeleteMovie(DeleteMovieRequest) returns (DeleteMovieResponse);
+}
+
+//
+// Common
+//
+message Imdb {
+    double rating = 1;
+    int32 votes = 2;
+    int32 id = 3;
+}
+
+message Viewer {
+    double rating = 1;
+    int32 numReviews = 2;
+    int32 meter = 3;
+}
+
+message Critic {
+    double rating = 1;
+    int32 numReviews = 2;
+    int32 meter = 3;
+}
+
+message Tomatoes {
+    string boxOffice = 1;
+    string consensus = 2;
+    Critic critic = 3;
+    google.protobuf.Timestamp dvd = 4;
+    int32 fresh = 5;
+    google.protobuf.Timestamp lastUpdated = 6;
+    string production = 7;
+    int32 rotten = 8;
+    Viewer viewer = 9;
+    string website = 10;
+}
+
+message Movie {
+    string id = 1;
+    string title = 2;
+    int32 runtime = 3;
+    string rated = 4;
+    int32 year = 5;
+    string poster = 6;
+    Imdb imdb = 7;
+    Tomatoes tomatoes = 8;
+    repeated string cast = 9;
+    repeated string genres = 10;
+    repeated string directors = 11;
+}
+
+//
+// GetMovieById
+//
+
+message GetMovieByIdRequest {
+    string movieId = 1;
+}
+
+message GetMovieByIdResponse {
+    Movie movie = 1;
+}
+
+//
+// Get Movie List
+//
+
+message MovieOptions {
+    int32 pageNumber = 1;
+    int32 pageSize = 2;
+    repeated string sortBy = 3;
+    string title = 4;
+    string rated = 5;
+    string runtime = 6;
+    string year = 7;
+    string type = 8;
+    repeated string cast = 9;
+    repeated string genres = 10;
+    repeated string directors = 11;
+}
+
+message PageInfo {
+    int32 currentPageNumber = 1;
+    int32 nextPageNumber = 2;
+    int32 previousPageNumber = 3;
+    int32 lastPageNumber = 4;
+    int64 itemCount = 5;
+    int32 pageSize = 6;
+    int32 pageCount = 7;
+    bool hasPrevious = 8;
+    bool hasNext = 9;
+}
+
+message GetMovieListRequest {
+    MovieOptions options = 1;
+}
+
+message GetMovieListResponse {
+    repeated Movie movies = 1;
+    PageInfo pageInfo = 2;
+}
+
+//
+// Save Movie
+//
+
+message MovieForSave {
+    string id = 1;
+    string title = 2;
+    string plot = 3;
+    int32 runtime = 4;
+    string rated = 5;
+    int32 year = 6;
+    string poster = 7;
+    google.protobuf.Timestamp released = 8;
+    repeated string genres = 9;
+    repeated string cast = 10;
+    repeated string directors = 11;
+}
+
+message SaveMovieRequest {
+    MovieForSave movie = 1;
+}
+
+message SaveMovieResponse {
+    string movieId = 1;
+}
+
+//
+// Save IMDB Rating
+//
+
+message SaveImdbRatingRequest {
+    string movieId = 1;
+    Imdb imdb = 2;
+}
+
+message SaveImdbRatingResponse {
+    Imdb imdb = 1;
+}
+
+//
+// Save Tomatoes Rating
+//
+
+message SaveTomatoesRatingRequest {
+    string movieId = 1;
+    Tomatoes tomatoes = 2;
+}
+
+message SaveTomatoesRatingResponse {
+    Tomatoes tomatoes = 1;
+}
+
+//
+// Save Metacritic Rating
+//
+
+message SaveMetacriticRatingRequest {
+    string movieId = 1;
+    google.protobuf.Int32Value metacriticRating = 2;
+}
+
+message SaveMetacriticRatingResponse {
+    google.protobuf.Int32Value metacriticRating = 1;
+}
+
+//
+// DeleteMovie
+//
+
+message DeleteMovieRequest {
+    string movieId = 1;
+}
+
+message DeleteMovieResponse {
+    string movieId = 1;
+}
