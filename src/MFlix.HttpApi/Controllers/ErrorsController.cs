@@ -33,6 +33,9 @@ namespace MFlix.HttpApi.Controllers
                 .Get<IExceptionHandlerFeature>()
                 ?.Error;
 
+            if (error is null)
+                return NoContent();
+
             return error switch
             {
                 RpcException ex when (ex.StatusCode == RpcStatusCode.InvalidArgument) => HandleInvalidArgument(ex),
