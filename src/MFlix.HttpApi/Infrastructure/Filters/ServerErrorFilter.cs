@@ -33,16 +33,19 @@ namespace MFlix.HttpApi.Infrastructure.Filters
         {
             if (context is null) throw new ArgumentNullException(nameof(context));
 
-            var result = context.Exception switch
+            if (context.Exception is not null)
             {
-                RpcException ex when (ex.StatusCode == RpcStatusCode.InvalidArgument) => HandleInvalidArgument(ex, context.HttpContext),
-                RpcException ex when (ex.StatusCode == RpcStatusCode.NotFound) => HandleNotFound(ex, context.HttpContext),
-                _ => HandleUnexpectedException(context.Exception, context.HttpContext),
-            };
-            result.ContentTypes.Add(MediaTypeNames.Application.Json);
-            result.ContentTypes.Add(MediaTypeNames.Application.Xml);
-            context.Result = result;
-            context.ExceptionHandled = true;
+                var result = context.Exception switch
+                {
+                    RpcException ex when (ex.StatusCode == RpcStatusCode.InvalidArgument) => HandleInvalidArgument(ex, context.HttpContext),
+                    RpcException ex when (ex.StatusCode == RpcStatusCode.NotFound) => HandleNotFound(ex, context.HttpContext),
+                    _ => HandleUnexpectedException(context.Exception, context.HttpContext),
+                };
+                result.ContentTypes.Add(MediaTypeNames.Application.Json);
+                result.ContentTypes.Add(MediaTypeNames.Application.Xml);
+                context.Result = result;
+                context.ExceptionHandled = true;
+            }
         }
 
         public void OnActionExecuting(ActionExecutingContext context)
