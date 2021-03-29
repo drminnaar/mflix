@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using MFlix.HttpApi.Infrastructure.Filters;
 using MFlix.Services;
 using Microsoft.AspNetCore.Builder;
@@ -13,6 +14,7 @@ namespace MFlix.HttpApi
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddGrpcClient<MovieService.MovieServiceClient>(options =>
             {
                 options.Address = new Uri("https://localhost:5001");

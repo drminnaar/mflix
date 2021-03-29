@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
+using AutoMapper;
+using MFlix.HttpApi.Models;
 using MFlix.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace MFlix.HttpApi.Controllers
 {
@@ -11,12 +12,12 @@ namespace MFlix.HttpApi.Controllers
     public sealed class MoviesController : ApiControllerBase
     {
         private readonly MovieService.MovieServiceClient _movieService;
-        private readonly ILogger<MoviesController> _logger;
+        private readonly IMapper _mapper;
 
-        public MoviesController(MovieService.MovieServiceClient movieService, ILogger<MoviesController> logger)
+        public MoviesController(MovieService.MovieServiceClient movieService, IMapper mapper)
         {
             _movieService = movieService ?? throw new ArgumentNullException(nameof(movieService));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         [HttpGet("{movieId}", Name = nameof(GetMovieById))]
@@ -36,7 +37,7 @@ namespace MFlix.HttpApi.Controllers
             if (response?.Movie is null)
                 return NotFound();
 
-            return Ok(response.Movie);
+            return Ok(_mapper.Map<MovieDetail>(response.Movie));
         }
 
         [HttpOptions(Name = nameof(GetMovieOptions))]
