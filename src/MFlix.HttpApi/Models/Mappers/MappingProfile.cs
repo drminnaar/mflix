@@ -5,12 +5,19 @@ using AutoMapper;
 
 namespace MFlix.HttpApi.Models.Mappers
 {
-    public sealed class MovieDetailMappingProfile : Profile
+    public sealed class MappingProfile : Profile
     {
-        public MovieDetailMappingProfile()
+        public MappingProfile()
         {
             CreateMap<Services.Critic, Critic>();
             CreateMap<Services.Viewer, Viewer>();
+            CreateTomatoesRatingMap();
+            CreateMap<Services.Imdb, ImdbRating>();
+            CreateMovieMap();
+        }
+
+        private void CreateTomatoesRatingMap()
+        {
             CreateMap<Services.Tomatoes, TomatoesRating>()
                 .ForMember(
                     destination => destination.Dvd,
@@ -20,8 +27,11 @@ namespace MFlix.HttpApi.Models.Mappers
                     destination => destination.LastUpdated,
                     options => options.MapFrom(rating => rating.LastUpdated.ToDateTime().ToString(CultureInfo.InvariantCulture))
                 );
-            CreateMap<Services.Imdb, ImdbRating>();
-            CreateMap<Services.Movie, MovieDetail>()
+        }
+
+        private void CreateMovieMap()
+        {
+            CreateMap<Services.Movie, Movie>()
                 .ForMember(
                     destination => destination.CastMembers,
                     options => options.MapFrom(movie => new List<Cast>(movie.Cast.Select(cast => new Cast(cast))))

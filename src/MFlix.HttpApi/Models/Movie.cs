@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace MFlix.HttpApi.Models
 {
     [DataContract(Namespace = "")]
-    public sealed class MovieDetail
+    public sealed class Movie
     {
         [DataMember]
         public string Id { get; init; } = string.Empty;

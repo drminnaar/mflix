@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using MFlix.HttpApi.Models;
-using MFlix.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +10,10 @@ namespace MFlix.HttpApi.Controllers
     [Route("movies")]
     public sealed class MoviesController : ApiControllerBase
     {
-        private readonly MovieService.MovieServiceClient _movieService;
+        private readonly Services.MovieService.MovieServiceClient _movieService;
         private readonly IMapper _mapper;
 
-        public MoviesController(MovieService.MovieServiceClient movieService, IMapper mapper)
+        public MoviesController(Services.MovieService.MovieServiceClient movieService, IMapper mapper)
         {
             _movieService = movieService ?? throw new ArgumentNullException(nameof(movieService));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
@@ -29,7 +28,7 @@ namespace MFlix.HttpApi.Controllers
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetMovieById([FromRoute] string movieId)
         {
-            var response = await _movieService.GetMovieByIdAsync(new GetMovieByIdRequest
+            var response = await _movieService.GetMovieByIdAsync(new Services.GetMovieByIdRequest
             {
                 MovieId = movieId
             });
@@ -37,7 +36,7 @@ namespace MFlix.HttpApi.Controllers
             if (response?.Movie is null)
                 return NotFound();
 
-            return Ok(_mapper.Map<MovieDetail>(response.Movie));
+            return Ok(_mapper.Map<Movie>(response.Movie));
         }
 
         [HttpOptions(Name = nameof(GetMovieOptions))]
