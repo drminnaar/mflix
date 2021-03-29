@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace MFlix.HttpApi.Controllers
 {
     [Route("")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public sealed class RootController : ApiControllerBase
     {
         [HttpGet(Name = nameof(Get))]
