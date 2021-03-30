@@ -27,6 +27,11 @@ namespace MFlix.GrpcApi.Managers
 
         public override async Task<Services.DeleteMovieResponse> DeleteMovie(Services.DeleteMovieRequest request, ServerCallContext context)
         {
+            if (request is null) throw new ArgumentNullException(nameof(request));
+
+            if (!_validator.IsValidDeleteMovieRequest(request, out var trailers))
+                throw NewInvalidArgumentRpcException("Invalid movie id", trailers);
+
             var movie = await _movieDao
                 .DeleteMovie(request.MovieId)
                 .ConfigureAwait(true);

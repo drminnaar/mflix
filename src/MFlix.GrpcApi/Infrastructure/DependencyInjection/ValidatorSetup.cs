@@ -12,6 +12,7 @@ namespace MFlix.GrpcApi.Infrastructure.DependencyInjection
             services.AddTransient<MessageValidatorBase<SaveImdbRatingRequest>, SaveImdbRatingRequestValidator>();
             services.AddTransient<MessageValidatorBase<SaveTomatoesRatingRequest>, SaveTomatoesRatingRequestValidator>();
             services.AddTransient<MessageValidatorBase<GetMovieByIdRequest>, GetMovieByIdRequestValidator>();
+            services.AddTransient<MessageValidatorBase<DeleteMovieRequest>, DeleteMovieRequestValidator>();
             services.AddTransient<IMovieServiceValidator, MovieServiceValidator>();
             return services;
         }
