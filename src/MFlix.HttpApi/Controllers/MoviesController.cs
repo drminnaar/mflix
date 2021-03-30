@@ -130,11 +130,31 @@ namespace MFlix.HttpApi.Controllers
             return NoContent();
         }
 
+        [HttpDelete("{movieId}", Name = nameof(DeleteMovie))]
+        [ProducesResponseType(typeof(string), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status406NotAcceptable)]
+        [ProducesResponseType(StatusCodes.Status415UnsupportedMediaType)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> DeleteMovie([FromRoute] string movieId)
+        {
+            var request = new Services.DeleteMovieRequest
+            {
+                MovieId = movieId
+            };
+
+            await _movieService.DeleteMovieAsync(request);
+
+            return NoContent();
+        }
+
         [HttpOptions(Name = nameof(GetMovieOptions))]
         public IActionResult GetMovieOptions()
         {
             Response.Headers.Add("Allow", "GET,OPTIONS");
-            return Ok();
+            return NoContent();
         }
     }
 }

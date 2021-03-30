@@ -22,7 +22,7 @@ namespace MFlix.HttpApi.Controllers
         public IActionResult GetRootOptions()
         {
             Response.Headers.Add("Allow", "GET,OPTIONS");
-            return Ok();
+            return NoContent();
         }
 
         private IReadOnlyCollection<ResourceLink> GetRootResourceLinks() => new List<ResourceLink>
@@ -39,6 +39,7 @@ namespace MFlix.HttpApi.Controllers
             new (Href(nameof(MoviesController.SaveMovie)), "movie-save", HttpMethod.Post),
             new (Href(nameof(MoviesController.SaveImdbRating), new { movieId = "{movieId}" }), "imdb-save", HttpMethod.Post),
             new (Href(nameof(MoviesController.SaveTomatoesRating), new { movieId = "{movieId}" }), "tomatoes-save", HttpMethod.Post),
+            new (Href(nameof(MoviesController.DeleteMovie), new { movieId = "{movieId}" }), "movie-delete", HttpMethod.Delete),
         };
 
         private string Href(string routeName, object? values) =>
