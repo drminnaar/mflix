@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using AutoMapper;
@@ -15,6 +16,7 @@ namespace MFlix.HttpApi.Models.Mappers
             CreateMap<Services.Imdb, ImdbRating>();
             CreateMovieMap();
             CreateMap<MovieOptions, Services.MovieOptions>();
+            CreateMovieForSaveMap();
         }
 
         private void CreateTomatoesRatingMap()
@@ -44,6 +46,16 @@ namespace MFlix.HttpApi.Models.Mappers
                 .ForMember(
                     destination => destination.Genres,
                     options => options.MapFrom(movie => new List<Genre>(movie.Genres.Select(genre => new Genre(genre))))
+                );
+        }
+
+        private void CreateMovieForSaveMap()
+        {
+            CreateMap<MovieForSave, Services.MovieForSave>()
+                .ForMember(
+                    destination => destination.Released,
+                    options => options.MapFrom(movie => Google.Protobuf.WellKnownTypes.Timestamp.FromDateTime(
+                        DateTime.Parse(movie.Released, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal)))
                 );
         }
     }

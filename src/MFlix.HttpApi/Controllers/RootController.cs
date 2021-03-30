@@ -33,7 +33,9 @@ namespace MFlix.HttpApi.Controllers
         private IReadOnlyCollection<ResourceLink> GetMovieResourceLinks() => new List<ResourceLink>
         {
             new (Href(nameof(MoviesController.GetMovieById)), "movie-get", HttpMethod.Get),
-            new (Href(nameof(MoviesController.GetMovieOptions)), "movie-options", HttpMethod.Options)
+            new (Href(nameof(MoviesController.ListMovies)), "movie-list", HttpMethod.Get),
+            new (Href(nameof(MoviesController.GetMovieOptions)), "movie-options", HttpMethod.Options),
+            new (Href(nameof(MoviesController.SaveMovie)), "movie-save", HttpMethod.Post)
         };
 
         private string Href(string routeName) => Url.Link(routeName, new { }) ?? string.Empty;

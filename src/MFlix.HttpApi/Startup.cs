@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Mime;
 using System.Reflection;
+using FluentValidation.AspNetCore;
 using MFlix.HttpApi.Infrastructure.DependencyInjection;
 using MFlix.HttpApi.Infrastructure.Filters;
 using MFlix.Services;
@@ -33,6 +34,10 @@ namespace MFlix.HttpApi
                     options.InputFormatters.Add(new XmlSerializerInputFormatter(options));
                 })
                 .AddXmlDataContractSerializerFormatters()
+                .AddFluentValidation(config =>
+                {
+                    config.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+                })
                 .ConfigureApiBehaviorOptions(options =>
                 {
                     options.InvalidModelStateResponseFactory = context =>

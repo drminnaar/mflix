@@ -59,6 +59,35 @@ namespace MFlix.HttpApi.Controllers
             return Ok(_mapper.Map<IEnumerable<Movie>>(response.Movies));
         }
 
+        [HttpPost(Name = nameof(SaveMovie))]
+        [ProducesResponseType(typeof(string), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status406NotAcceptable)]
+        [ProducesResponseType(StatusCodes.Status415UnsupportedMediaType)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> SaveMovie([FromBody] MovieForSave movieForSave)
+        {
+            var saveRequest = new Services.SaveMovieRequest
+            {
+                Movie = _mapper.Map<Services.MovieForSave>(movieForSave)
+            };
+            var saveResponse = await _movieService.SaveMovieAsync(saveRequest);
+
+            var getRequest = new Services.GetMovieByIdRequest
+            {
+                MovieId = saveResponse.MovieId
+            };
+            var getResponse = await _movieService.GetMovieByIdAsync(getRequest);
+            var movie = _mapper.Map<Movie>(getResponse.Movie);
+
+            return CreatedAtAction(
+                actionName: nameof(GetMovieById),
+                routeValues: new { movieId = movie.Id },
+                value: movie);
+        }
+
         [HttpOptions(Name = nameof(GetMovieOptions))]
         public IActionResult GetMovieOptions()
         {
