@@ -88,6 +88,27 @@ namespace MFlix.HttpApi.Controllers
                 value: movie);
         }
 
+        [HttpPost("{movieId}/imdb", Name = nameof(SaveImdbRating))]
+        [ProducesResponseType(typeof(string), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status406NotAcceptable)]
+        [ProducesResponseType(StatusCodes.Status415UnsupportedMediaType)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> SaveImdbRating([FromRoute] string movieId, [FromBody] ImdbForSave imdbForSave)
+        {
+            var request = new Services.SaveImdbRatingRequest
+            {
+                Imdb = _mapper.Map<Services.Imdb>(imdbForSave),
+                MovieId = movieId
+            };
+
+            await _movieService.SaveImdbRatingAsync(request);
+
+            return NoContent();
+        }
+
         [HttpOptions(Name = nameof(GetMovieOptions))]
         public IActionResult GetMovieOptions()
         {

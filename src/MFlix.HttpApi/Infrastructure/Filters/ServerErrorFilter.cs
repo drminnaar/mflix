@@ -75,7 +75,7 @@ namespace MFlix.HttpApi.Infrastructure.Filters
                 Detail = string.Empty,
                 Instance = context.Request?.Path.Value ?? string.Empty,
                 Status = StatusCodes.Status422UnprocessableEntity,
-                Title = "There were validation errors",
+                Title = $"There are {errors.Count} validation errors",
                 Type = $"https://httpstatuses.com/{StatusCodes.Status422UnprocessableEntity}"
             };
             problem.Extensions.Add("traceId", context.TraceIdentifier);
