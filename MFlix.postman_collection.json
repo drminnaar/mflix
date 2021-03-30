@@ -1,0 +1,623 @@
+{
+	"info": {
+		"_postman_id": "74c81d55-7ca0-4dc8-98a5-27e2b16fa894",
+		"name": "MFlix",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Movies",
+			"item": [
+				{
+					"name": "Get Movies",
+					"item": [
+						{
+							"name": "Get Movie By Id [200]",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/xml",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{host}}/movies/573a1390f29313caabcd42e8",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"movies",
+										"573a1390f29313caabcd42e8"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Movie By Id [404]",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/movies/573a1390f29313caabcd42e7",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"movies",
+										"573a1390f29313caabcd42e7"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Movie By Id [422]",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/xml",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{host}}/movies/abc123",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"movies",
+										"abc123"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Movie Options",
+							"request": {
+								"method": "OPTIONS",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/movies",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"movies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List Movies [200OK]",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "Accept",
+										"value": "application/xml",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/movies?page=1&limit=100&cast=tom cruise, harrison ford&year=gt:2000",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"movies"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "100"
+										},
+										{
+											"key": "cast",
+											"value": "tom cruise, harrison ford"
+										},
+										{
+											"key": "order",
+											"value": "-year",
+											"disabled": true
+										},
+										{
+											"key": "year",
+											"value": "gt:2000"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Save Movie",
+					"item": [
+						{
+							"name": "Save Movie [201]",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"Movie From Http\",\r\n  \"plot\": \"A test\",\r\n  \"runtime\": 120,\r\n  \"rated\": \"PG\",\r\n  \"year\": 2020,\r\n  \"poster\": \"http://example.com/poster.jpg\",\r\n  \"released\": \"2020-03-01T00:00:00Z\",\r\n  \"genres\": [\r\n    \"Action\"\r\n  ],\r\n  \"cast\": [\r\n    \"Bob\"\r\n  ],\r\n  \"directors\": [\r\n    \"Jane\"\r\n  ]\r\n}"
+								},
+								"url": {
+									"raw": "{{host}}/movies",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"movies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Save Movie [422]",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"\",\r\n  \"plot\": \"\",\r\n  \"runtime\": 120,\r\n  \"rated\": \"\",\r\n  \"year\": 2020,\r\n  \"poster\": \"http://example.com/poster.jpg\",\r\n  \"released\": \"2020-03-01T00:00:00Z\",\r\n  \"genres\": [\" \"],\r\n  \"cast\": [\r\n  ],\r\n  \"directors\": [\r\n    \"Jane\"\r\n  ]\r\n}"
+								},
+								"url": {
+									"raw": "{{host}}/movies",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"movies"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Delete Movie",
+					"item": [
+						{
+							"name": "Delete Movie [204]",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/movies/{{movieId}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"movies",
+										"{{movieId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Movie [422]",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"\",\r\n  \"plot\": \"\",\r\n  \"runtime\": 120,\r\n  \"rated\": \"\",\r\n  \"year\": 2020,\r\n  \"poster\": \"http://example.com/poster.jpg\",\r\n  \"released\": \"2020-03-01T00:00:00Z\",\r\n  \"genres\": [\" \"],\r\n  \"cast\": [\r\n  ],\r\n  \"directors\": [\r\n    \"Jane\"\r\n  ]\r\n}"
+								},
+								"url": {
+									"raw": "{{host}}/movies/abc123",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"movies",
+										"abc123"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Movie [404]",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"\",\r\n  \"plot\": \"\",\r\n  \"runtime\": 120,\r\n  \"rated\": \"\",\r\n  \"year\": 2020,\r\n  \"poster\": \"http://example.com/poster.jpg\",\r\n  \"released\": \"2020-03-01T00:00:00Z\",\r\n  \"genres\": [\" \"],\r\n  \"cast\": [\r\n  ],\r\n  \"directors\": [\r\n    \"Jane\"\r\n  ]\r\n}"
+								},
+								"url": {
+									"raw": "{{host}}/movies/{{fakeMovieId}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"movies",
+										"{{fakeMovieId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Save Imdb",
+					"item": [
+						{
+							"name": "Save Imdb [204]",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 3453450,\r\n  \"rating\": 6.8,\r\n  \"votes\": 25628\r\n}"
+								},
+								"url": {
+									"raw": "{{host}}/movies/{{movieId}}/imdb",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"movies",
+										"{{movieId}}",
+										"imdb"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Save Imdb [422]",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n}"
+								},
+								"url": {
+									"raw": "{{host}}/movies/{{movieId}}/imdb",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"movies",
+										"{{movieId}}",
+										"imdb"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Save Imdb [404]",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 3453450,\r\n  \"rating\": 6.8,\r\n  \"votes\": 25628\r\n}"
+								},
+								"url": {
+									"raw": "{{host}}/movies/{{fakeMovieId}}/imdb",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"movies",
+										"{{fakeMovieId}}",
+										"imdb"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Save Tomatoes",
+					"item": [
+						{
+							"name": "Save Tomatoes [204]",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"boxOffice\": \"Example BoxOffice\",\r\n  \"consensus\": \"Example consensus\",\r\n  \"criticRating\": 7.5,\r\n  \"criticNumReviews\": 15,\r\n  \"criticMeter\": 67,\r\n  \"dvd\": \"2020-04-01T00:00:00Z\",\r\n  \"fresh\": 34,\r\n  \"lastUpdated\": \"2020-04-01T00:00:00Z\",\r\n  \"production\": \"Example Productions\",\r\n  \"rotten\": 4,\r\n  \"viewerRating\": 8.3,\r\n  \"viewerNumReviews\": 34563,\r\n  \"viewerMeter\": 78,\r\n  \"website\": \"www.example.com/example\"\r\n}"
+								},
+								"url": {
+									"raw": "{{host}}/movies/{{movieId}}/tomatoes",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"movies",
+										"{{movieId}}",
+										"tomatoes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Save Tomatoes [422]",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n}"
+								},
+								"url": {
+									"raw": "{{host}}/movies/{{movieId}}/tomatoes",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"movies",
+										"{{movieId}}",
+										"tomatoes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Save Tomatoes [404]",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"boxOffice\": \"Example BoxOffice\",\r\n  \"consensus\": \"Example consensus\",\r\n  \"criticRating\": 7.5,\r\n  \"criticNumReviews\": 15,\r\n  \"criticMeter\": 67,\r\n  \"dvd\": \"2020-04-01T00:00:00Z\",\r\n  \"fresh\": 34,\r\n  \"lastUpdated\": \"2020-04-01T00:00:00Z\",\r\n  \"production\": \"Example Productions\",\r\n  \"rotten\": 4,\r\n  \"viewerRating\": 8.3,\r\n  \"viewerNumReviews\": 34563,\r\n  \"viewerMeter\": 78,\r\n  \"website\": \"www.example.com/example\"\r\n}"
+								},
+								"url": {
+									"raw": "{{host}}/movies/{{movieId}}/tomatoes",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"movies",
+										"{{movieId}}",
+										"tomatoes"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Root",
+			"item": [
+				{
+					"name": "Get Root Info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}",
+							"host": [
+								"{{host}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Root Options",
+					"request": {
+						"method": "OPTIONS",
+						"header": [],
+						"url": {
+							"raw": "{{host}}",
+							"host": [
+								"{{host}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "http://localhost:5050"
+		},
+		{
+			"key": "movieId",
+			"value": "573a1390f29313caabcd4135"
+		},
+		{
+			"key": "fakeMovieId",
+			"value": "873a1390f25313caabcd4131"
+		}
+	]
+}
