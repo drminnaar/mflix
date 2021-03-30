@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Mime;
 using System.Reflection;
+using MFlix.HttpApi.Infrastructure.DependencyInjection;
 using MFlix.HttpApi.Infrastructure.Filters;
 using MFlix.Services;
 using Microsoft.AspNetCore.Builder;
@@ -52,6 +53,7 @@ namespace MFlix.HttpApi
                         return result;
                     };
                 });
+            services.ConfigureSwagger();
         }
 
         public void Configure(IApplicationBuilder app)
@@ -63,7 +65,8 @@ namespace MFlix.HttpApi
 
             // Use builtin exception handler with custom errors controller
             //app.UseExceptionHandler($"/{ErrorsController.ErrorsPath}");
-
+            app.UseStaticFiles();
+            app.UseCustomSwagger();
             app.UseRouting();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
