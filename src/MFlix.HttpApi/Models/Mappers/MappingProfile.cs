@@ -18,6 +18,7 @@ namespace MFlix.HttpApi.Models.Mappers
             CreateMap<MovieOptions, Services.MovieOptions>();
             CreateMovieForSaveMap();
             CreateMap<ImdbForSave, Services.Imdb>();
+            CreateTomatoesForSaveMap();
         }
 
         private void CreateTomatoesRatingMap()
@@ -57,6 +58,39 @@ namespace MFlix.HttpApi.Models.Mappers
                     destination => destination.Released,
                     options => options.MapFrom(movie => Google.Protobuf.WellKnownTypes.Timestamp.FromDateTime(
                         DateTime.Parse(movie.Released, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal)))
+                );
+        }
+
+        private void CreateTomatoesForSaveMap()
+        {
+            CreateMap<TomatoesForSave, Services.Tomatoes>()
+                .ForMember(
+                    destination => destination.Dvd,
+                    options => options.MapFrom(movie => Google.Protobuf.WellKnownTypes.Timestamp.FromDateTime(
+                        DateTime.Parse(movie.Dvd, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal)))
+                )
+                .ForMember(
+                    destination => destination.LastUpdated,
+                    options => options.MapFrom(movie => Google.Protobuf.WellKnownTypes.Timestamp.FromDateTime(
+                        DateTime.Parse(movie.LastUpdated, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal)))
+                )
+                .ForMember(
+                    destination => destination.Critic,
+                    options => options.MapFrom(rating => new Services.Critic
+                    {
+                        Meter = rating.CriticMeter,
+                        NumReviews = rating.CriticNumReviews,
+                        Rating = rating.CriticRating
+                    })
+                )
+                .ForMember(
+                    destination => destination.Viewer,
+                    options => options.MapFrom(rating => new Services.Viewer
+                    {
+                        Meter = rating.ViewerMeter,
+                        NumReviews = rating.ViewerNumReviews,
+                        Rating = rating.ViewerRating
+                    })
                 );
         }
     }

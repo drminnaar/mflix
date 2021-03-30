@@ -37,7 +37,8 @@ namespace MFlix.HttpApi.Controllers
             new (Href(nameof(MoviesController.ListMovies)), "movie-list", HttpMethod.Get),
             new (Href(nameof(MoviesController.GetMovieOptions)), "movie-options", HttpMethod.Options),
             new (Href(nameof(MoviesController.SaveMovie)), "movie-save", HttpMethod.Post),
-            new (Href(nameof(MoviesController.SaveImdbRating), new { movieId = "{movieId}" }), "imdb-save", HttpMethod.Post)
+            new (Href(nameof(MoviesController.SaveImdbRating), new { movieId = "{movieId}" }), "imdb-save", HttpMethod.Post),
+            new (Href(nameof(MoviesController.SaveTomatoesRating), new { movieId = "{movieId}" }), "tomatoes-save", HttpMethod.Post),
         };
 
         private string Href(string routeName, object? values) =>

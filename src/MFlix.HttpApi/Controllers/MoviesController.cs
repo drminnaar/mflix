@@ -109,6 +109,27 @@ namespace MFlix.HttpApi.Controllers
             return NoContent();
         }
 
+        [HttpPost("{movieId}/tomatoes", Name = nameof(SaveTomatoesRating))]
+        [ProducesResponseType(typeof(string), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status406NotAcceptable)]
+        [ProducesResponseType(StatusCodes.Status415UnsupportedMediaType)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> SaveTomatoesRating([FromRoute] string movieId, [FromBody] TomatoesForSave tomatoesForSave)
+        {
+            var request = new Services.SaveTomatoesRatingRequest
+            {
+                Tomatoes = _mapper.Map<Services.Tomatoes>(tomatoesForSave),
+                MovieId = movieId
+            };
+
+            await _movieService.SaveTomatoesRatingAsync(request);
+
+            return NoContent();
+        }
+
         [HttpOptions(Name = nameof(GetMovieOptions))]
         public IActionResult GetMovieOptions()
         {
