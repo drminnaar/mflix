@@ -46,7 +46,7 @@ namespace MFlix.HttpApi.Infrastructure.DependencyInjection
             app.UseSwaggerUI(setup =>
             {
                 setup.SwaggerEndpoint("/swagger/v1/swagger.json", "MFlix Api V1");
-                setup.RoutePrefix = string.Empty;
+                setup.RoutePrefix = "swagger";
                 setup.DefaultModelExpandDepth(2);
                 setup.DefaultModelRendering(Swashbuckle.AspNetCore.SwaggerUI.ModelRendering.Example);
                 setup.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.List);
