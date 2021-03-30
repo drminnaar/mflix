@@ -14,6 +14,7 @@ namespace MFlix.HttpApi.Models.Mappers
             CreateTomatoesRatingMap();
             CreateMap<Services.Imdb, ImdbRating>();
             CreateMovieMap();
+            CreateMap<MovieOptions, Services.MovieOptions>();
         }
 
         private void CreateTomatoesRatingMap()

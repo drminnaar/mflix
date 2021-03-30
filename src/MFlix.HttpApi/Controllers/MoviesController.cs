@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using MFlix.HttpApi.Models;
@@ -21,6 +22,7 @@ namespace MFlix.HttpApi.Controllers
 
         [HttpGet("{movieId}", Name = nameof(GetMovieById))]
         [ProducesResponseType(typeof(Movie), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status406NotAcceptable)]
         [ProducesResponseType(StatusCodes.Status415UnsupportedMediaType)]
@@ -37,6 +39,24 @@ namespace MFlix.HttpApi.Controllers
                 return NotFound();
 
             return Ok(_mapper.Map<Movie>(response.Movie));
+        }
+
+        [HttpGet(Name = nameof(ListMovies))]
+        [ProducesResponseType(typeof(Movie[]), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status406NotAcceptable)]
+        [ProducesResponseType(StatusCodes.Status415UnsupportedMediaType)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> ListMovies([FromQuery] MovieOptions options)
+        {
+            var response = await _movieService.GetMovieListAsync(new Services.GetMovieListRequest
+            {
+                Options = _mapper.Map<Services.MovieOptions>(options)
+            });
+
+            return Ok(_mapper.Map<IEnumerable<Movie>>(response.Movies));
         }
 
         [HttpOptions(Name = nameof(GetMovieOptions))]
