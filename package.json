@@ -1,14 +1,15 @@
 {
   "name": "mflix",
   "version": "1.0.0",
-  "scripts": {
-    "up": "docker-compose -f ./fabric/docker-compose.yaml up --build --detach && docker-compose -f ./fabric/docker-compose.yaml ps",
-    "down": "docker-compose -f ./fabric/docker-compose.yaml down --volumes && docker-compose -f ./fabric/docker-compose.yaml ps",
-    "status": "docker-compose -f ./fabric/docker-compose.yaml ps",
-    "describe": "docker-compose -f ./fabric/docker-compose.yaml config --services",
-    "start:grpc": "dotnet watch run --project ./src/MFlix.GrpcApi/MFlix.GrpcApi.csproj",
-    "start:grpcui": "grpcui localhost:5001",
-    "start:http": "dotnet watch run --project ./src/MFlix.HttpApi/MFlix.HttpApi.csproj",
-    "start:apis": "npx concurrently \"npm run start:grpc\" \"npm run start:http\""
-  }
+    "scripts": {
+        "up": "docker-compose -f ./fabric/docker-compose.yaml up --build --detach && docker-compose -f ./fabric/docker-compose.yaml ps",
+        "down": "docker-compose -f ./fabric/docker-compose.yaml down --volumes && docker-compose -f ./fabric/docker-compose.yaml ps",
+        "status": "docker-compose -f ./fabric/docker-compose.yaml ps",
+        "describe": "docker-compose -f ./fabric/docker-compose.yaml config --services",
+        "start:grpc": "dotnet watch run --project ./src/MFlix.GrpcApi/MFlix.GrpcApi.csproj",
+        "start:grpcui": "grpcui localhost:4001",
+        "start:http": "dotnet watch run --project ./src/MFlix.HttpApi/MFlix.HttpApi.csproj",
+        "start:gql": "dotnet watch run --project ./src/MFlix.GqlApi/MFlix.GqlApi.csproj",
+        "start:apis": "npx concurrently \"npm run start:grpc\" \"npm run start:http\" \"npm run start:gql\""
+    }
 }
