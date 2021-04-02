@@ -22,7 +22,7 @@ namespace MFlix.HttpApi
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddGrpcClient<MovieService.MovieServiceClient>(options =>
             {
-                options.Address = new Uri("https://localhost:5001");
+                options.Address = new Uri("https://localhost:4001");
             });
             services
                 .AddControllers(options =>
