@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HotChocolate.Types;
+using MFlix.GqlApi.Infrastructure;
 
 namespace MFlix.GqlApi.Movies
 {
-    [ExtendObjectType("Query")]
+    [ExtendObjectType(AppConstants.QueryTypeName)]
     public sealed class MovieQueries
     {
         private readonly Services.MovieService.MovieServiceClient _movieService;
