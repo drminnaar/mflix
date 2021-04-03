@@ -5,7 +5,7 @@
             // Use IntelliSense to find out which attributes exist for C# debugging
             // Use hover for the description of the existing attributes
             // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
-            "name": ".NET Core Launch (console)",
+            "name": "GRPC API Launch (console)",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
@@ -16,13 +16,24 @@
             "stopAtEntry": false
         },
         {
-            "name": "HttpApi Launch (console)",
+            "name": "HTTP Api Launch (console)",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
             "program": "${workspaceFolder}/src/MFlix.HttpApi/bin/Debug/net5.0/MFlix.HttpApi.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/MFlix.HttpApi",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": "GQL API Launch (console)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/MFlix.GqlApi/bin/Debug/net5.0/MFlix.GqlApi.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/MFlix.GqlApi",
             "console": "internalConsole",
             "stopAtEntry": false
         },
