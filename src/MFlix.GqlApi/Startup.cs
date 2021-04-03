@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Reflection;
 using MFlix.GqlApi.Infrastructure;
 using MFlix.GqlApi.Infrastructure.Configuration;
 using MFlix.GqlApi.Movies;
+using MFlix.GqlApi.Movies.Queries;
+using MFlix.GqlApi.Movies.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,6 +22,8 @@ namespace MFlix.GqlApi
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
             services.AddGrpcClient<Services.MovieService.MovieServiceClient>(options =>
             {
                 var address = _configuration
@@ -32,10 +37,10 @@ namespace MFlix.GqlApi
             services
                 .AddGraphQLServer()
                 .AddQueryType(qt => qt.Name(AppConstants.QueryTypeName))
-                .AddTypeExtension<MovieQueries>()
+                    .AddTypeExtension<MovieQueries>()
+                .AddType<MovieOptionsType>()
                 .AddType<MovieType>()
                 .AddType<MovieListType>()
-                .AddType<MovieOptionsType>()
                 .AddType<PageInfoType>();
         }
 

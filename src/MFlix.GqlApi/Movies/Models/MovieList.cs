@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace MFlix.GqlApi.Movies
+namespace MFlix.GqlApi.Movies.Models
 {
     public sealed class MovieList
     {
