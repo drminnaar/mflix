@@ -8,6 +8,7 @@ using MFlix.GqlApi.Movies.Queries.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace MFlix.GqlApi
 {
@@ -48,6 +49,7 @@ namespace MFlix.GqlApi
 
         public void Configure(IApplicationBuilder app)
         {
+            app.UseSerilogRequestLogging();
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
