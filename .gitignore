@@ -8,8 +8,5 @@
 # Local History for Visual Studio Code
 .history/
 
-# Exclude appsettings files from source control
-src/MFlix.GrpcApi/appsettings.json
-
 # node
 node_modules
