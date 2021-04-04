@@ -1,6 +1,6 @@
 ﻿using HotChocolate;
 
-namespace MFlix.GqlApi.Movies.Models
+namespace MFlix.GqlApi.Movies.Queries.Models
 {
     [GraphQLDescription("Tomatoes rating information")]
     public sealed class TomatoesRating

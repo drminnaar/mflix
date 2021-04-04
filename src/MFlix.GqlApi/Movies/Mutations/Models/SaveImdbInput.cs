@@ -1,6 +1,6 @@
 ﻿using HotChocolate;
 
-namespace MFlix.GqlApi.Movies.Mutations
+namespace MFlix.GqlApi.Movies.Mutations.Models
 {
     [GraphQLDescription("Represents data to create or update IMDB information")]
     public sealed class SaveImdbInput

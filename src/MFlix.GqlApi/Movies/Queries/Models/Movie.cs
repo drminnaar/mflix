@@ -2,7 +2,7 @@
 using System.Linq;
 using HotChocolate;
 
-namespace MFlix.GqlApi.Movies.Models
+namespace MFlix.GqlApi.Movies.Queries.Models
 {
     [GraphQLDescription("Movie information")]
     public sealed class Movie

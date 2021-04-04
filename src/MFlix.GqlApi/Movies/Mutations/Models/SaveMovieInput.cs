@@ -1,8 +1,8 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using HotChocolate;
 
-namespace MFlix.GqlApi.Movies.Mutations
+namespace MFlix.GqlApi.Movies.Mutations.Models
 {
     [GraphQLDescription("Represents the data required to create or update a movie")]
     public sealed class SaveMovieInput

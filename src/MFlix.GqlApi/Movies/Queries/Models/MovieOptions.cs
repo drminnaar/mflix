@@ -1,6 +1,6 @@
 ﻿using HotChocolate;
 
-namespace MFlix.GqlApi.Movies.Models
+namespace MFlix.GqlApi.Movies.Queries.Models
 {
     [GraphQLDescription("Represents a set of options to filter, sort, and page movie data")]
     public sealed class MovieOptions

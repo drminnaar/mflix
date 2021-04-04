@@ -1,8 +1,8 @@
 ﻿using System;
 using HotChocolate.Types;
-using MFlix.GqlApi.Movies.Models;
+using MFlix.GqlApi.Movies.Queries.Models;
 
-namespace MFlix.GqlApi.Movies.Types
+namespace MFlix.GqlApi.Movies.Queries.Types
 {
     public sealed class MovieListType : ObjectType<MovieList>
     {

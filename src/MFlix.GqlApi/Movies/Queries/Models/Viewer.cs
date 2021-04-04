@@ -1,6 +1,6 @@
-using HotChocolate;
+﻿using HotChocolate;
 
-namespace MFlix.GqlApi.Movies.Models
+namespace MFlix.GqlApi.Movies.Queries.Models
 {
     [GraphQLDescription("Viewer rating information")]
     public sealed class Viewer

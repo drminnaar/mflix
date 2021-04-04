@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using HotChocolate.Types;
 using MFlix.GqlApi.Infrastructure;
-using MFlix.GqlApi.Movies.Models;
+using MFlix.GqlApi.Movies.Queries.Models;
 
 namespace MFlix.GqlApi.Movies.Queries
 {

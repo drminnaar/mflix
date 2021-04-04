@@ -1,4 +1,4 @@
-﻿namespace MFlix.GqlApi.Movies.Models
+﻿namespace MFlix.GqlApi.Movies.Queries.Models
 {
     public sealed class PageInfo
     {

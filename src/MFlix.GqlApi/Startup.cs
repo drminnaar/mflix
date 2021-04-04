@@ -4,7 +4,7 @@ using MFlix.GqlApi.Infrastructure;
 using MFlix.GqlApi.Infrastructure.Configuration;
 using MFlix.GqlApi.Movies.Mutations;
 using MFlix.GqlApi.Movies.Queries;
-using MFlix.GqlApi.Movies.Types;
+using MFlix.GqlApi.Movies.Queries.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

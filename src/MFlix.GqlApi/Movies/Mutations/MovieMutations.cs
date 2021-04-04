@@ -4,6 +4,7 @@ using AutoMapper;
 using HotChocolate;
 using HotChocolate.Types;
 using MFlix.GqlApi.Infrastructure;
+using MFlix.GqlApi.Movies.Mutations.Models;
 using MFlix.Services;
 
 namespace MFlix.GqlApi.Movies.Mutations

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using AutoMapper;
+using MFlix.GqlApi.Movies.Mutations.Models;
 
 namespace MFlix.GqlApi.Movies.Mutations
 {

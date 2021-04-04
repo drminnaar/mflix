@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Globalization;
 using AutoMapper;
-using MFlix.GqlApi.Movies.Models;
+using MFlix.GqlApi.Movies.Queries.Models;
 
-namespace MFlix.GqlApi.Movies.Mappers
+namespace MFlix.GqlApi.Movies.Queries
 {
     public sealed class MappingProfile : Profile
     {
