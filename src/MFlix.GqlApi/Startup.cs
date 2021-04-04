@@ -2,7 +2,7 @@
 using System.Reflection;
 using MFlix.GqlApi.Infrastructure;
 using MFlix.GqlApi.Infrastructure.Configuration;
-using MFlix.GqlApi.Movies;
+using MFlix.GqlApi.Movies.Mutations;
 using MFlix.GqlApi.Movies.Queries;
 using MFlix.GqlApi.Movies.Types;
 using Microsoft.AspNetCore.Builder;
@@ -36,6 +36,8 @@ namespace MFlix.GqlApi
 
             services
                 .AddGraphQLServer()
+                .AddMutationType(mt => mt.Name(AppConstants.MutationTypeName))
+                    .AddTypeExtension<MovieMutations>()
                 .AddQueryType(qt => qt.Name(AppConstants.QueryTypeName))
                     .AddTypeExtension<MovieQueries>()
                 .AddType<MovieOptionsType>()

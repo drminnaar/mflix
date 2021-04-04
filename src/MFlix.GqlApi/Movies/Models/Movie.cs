@@ -28,7 +28,7 @@ namespace MFlix.GqlApi.Movies.Models
         [GraphQLDescription("Rated (parental guidance rating")]
         public string? Rated { get; init; } = string.Empty;
 
-        [GraphQLDescription("Length of moviie")]
+        [GraphQLDescription("Length of movie")]
         public int? Runtime { get; init; }
 
         [GraphQLDescription("Name of movie")]

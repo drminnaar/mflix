@@ -34,23 +34,6 @@ namespace MFlix.GqlApi.Movies.Mappers
                 );
         }
 
-        // private void CreateMovieMap()
-        // {
-        //     CreateMap<Services.Movie, Movie>()
-        //         .ForMember(
-        //             destination => destination.CastMembers,
-        //             options => options.MapFrom(movie => new List<string>(movie.Cast.Select(cast => new Cast(cast))))
-        //         )
-        //         .ForMember(
-        //             destination => destination.Directors,
-        //             options => options.MapFrom(movie => new List<Director>(movie.Directors.Select(director => new Director(director))))
-        //         )
-        //         .ForMember(
-        //             destination => destination.Genres,
-        //             options => options.MapFrom(movie => new List<Genre>(movie.Genres.Select(genre => new Genre(genre))))
-        //         );
-        // }
-
         private void CreateGetMovieListResponseMap()
         {
             CreateMap<Services.GetMovieListResponse, MovieList>()
