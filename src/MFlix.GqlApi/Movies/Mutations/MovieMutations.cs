@@ -29,7 +29,7 @@ namespace MFlix.GqlApi.Movies.Mutations
 
             var result = await _movieService.SaveImdbRatingAsync(new SaveImdbRatingRequest
             {
-                Imdb = _mapper.Map<Services.Imdb>(imdb),
+                Imdb = _mapper.Map<Imdb>(imdb),
                 MovieId = imdb.MovieId
             });
 
@@ -62,7 +62,7 @@ namespace MFlix.GqlApi.Movies.Mutations
             var result = await _movieService.SaveTomatoesRatingAsync(new SaveTomatoesRatingRequest
             {
                 MovieId = tomatoes.MovieId,
-                Tomatoes = _mapper.Map<Services.Tomatoes>(tomatoes)
+                Tomatoes = _mapper.Map<Tomatoes>(tomatoes)
             });
 
             return _mapper.Map<SaveTomatoesPayload>(result.Tomatoes);
