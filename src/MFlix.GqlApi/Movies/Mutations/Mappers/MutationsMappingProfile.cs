@@ -9,6 +9,8 @@ namespace MFlix.GqlApi.Movies.Mutations.Mappers
         public MutationsMappingProfile()
         {
             CreateMovieForSaveMap();
+            CreateMap<SaveImdbInput, Services.Imdb>();
+            CreateMap<Services.Imdb, SaveImdbPayload>();
         }
 
         private void CreateMovieForSaveMap()

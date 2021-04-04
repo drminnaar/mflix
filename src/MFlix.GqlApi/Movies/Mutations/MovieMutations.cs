@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using HotChocolate.Types;
@@ -19,8 +19,25 @@ namespace MFlix.GqlApi.Movies.Mutations
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
+        public async Task<SaveImdbPayload> SaveImdb(SaveImdbInput imdb)
+        {
+            if (imdb is null)
+                throw new ArgumentNullException(nameof(imdb));
+
+            var result = await _movieService.SaveImdbRatingAsync(new SaveImdbRatingRequest
+            {
+                Imdb = _mapper.Map<Services.Imdb>(imdb),
+                MovieId = imdb.MovieId
+            });
+
+            return _mapper.Map<SaveImdbPayload>(result.Imdb);
+        }
+
         public async Task<SaveMoviePayload> SaveMovie(SaveMovieInput movie)
         {
+            if (movie is null)
+                throw new ArgumentNullException(nameof(movie));
+
             var result = await _movieService.SaveMovieAsync(new SaveMovieRequest
             {
                 Movie = _mapper.Map<Services.MovieForSave>(movie)
