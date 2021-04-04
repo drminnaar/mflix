@@ -21,6 +21,17 @@ namespace MFlix.GqlApi.Movies.Mutations
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
+        [GraphQLDescription("Delete movie")]
+        public async Task<string> DeleteMovie(string movieId)
+        {
+            var result = await _movieService.DeleteMovieAsync(new DeleteMovieRequest
+            {
+                MovieId = movieId
+            });
+
+            return result.MovieId;
+        }
+
         [GraphQLDescription("Save IMDB rating information")]
         public async Task<SaveImdbPayload> SaveImdb(SaveImdbInput imdb)
         {
