@@ -384,9 +384,19 @@ I recommend the following tools for testing gRPC services:
 
 ### 5.1 gRPCurl
 
+`grpcurl` is a command-line tool that lets you interact with gRPC servers. It's basically `curl` for gRPC servers. [Go here for more information.](https://github.com/fullstorydev/grpcurl)
+
 You will need to have [golang (go)](https://golang.org/) installed before installing `gRPCurl`. See the install instructions at the [official golang documentation](https://golang.org/doc/install).
 
-All the following commands have been tested on the [cross-platform (Windows, Linux, and macOS) Powershell](https://github.com/PowerShell/PowerShell)
+For Linux users, you may need to add the following to your `~/.bashrc` file:
+
+```bash
+# go config
+export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:$GOPATH/bin
+```
+
+In ddition to BASH on Linux, all the following commands have also been tested on the [cross-platform (Windows, Linux, and macOS) Powershell](https://github.com/PowerShell/PowerShell).
 
 ### 5.1.1 Install gRPCurl
 
@@ -415,7 +425,7 @@ grpcurl -h
 
 ```powershell
 # INPUT:
-grpcurl localhost:5001 list
+grpcurl -plaintext localhost:4000 list
 
 # OUTPUT:
 grpc.reflection.v1alpha.ServerReflection
@@ -426,7 +436,7 @@ mflix.services.MovieService
 
 ```powershell
 # INPUT:
-grpcurl localhost:5001 describe
+grpcurl -plaintext localhost:4000 describe
 
 # OUTPUT:
 grpc.reflection.v1alpha.ServerReflection is a service:
@@ -449,7 +459,7 @@ service MovieService {
 
 ```powershell
 #INPUT:
-grpcurl localhost:5001 describe mflix.services.MovieService
+grpcurl -plaintext localhost:4000 describe mflix.services.MovieService
 
 # OUTPUT:
 mflix.services.MovieService is a service:
@@ -468,7 +478,7 @@ service MovieService {
 
 ```powershell
 # INPUT: list methods for MovieService
-grpcurl localhost:5001 list mflix.services.MovieService
+grpcurl -plaintext localhost:4000 list mflix.services.MovieService
 
 # OUTPUT:
 mflix.services.MovieService.DeleteMovie
@@ -484,7 +494,7 @@ mflix.services.MovieService.SaveTomatoesRating
 
 ```powershell
 # INPUT:
-grpcurl localhost:5001 describe mflix.services.GetMovieListRequest
+grpcurl -plaintext localhost:4000 describe mflix.services.GetMovieListRequest
 
 # OUTPUT
 mflix.services.GetMovieListRequest is a message:
@@ -494,7 +504,7 @@ message GetMovieListRequest {
 
 
 # INPUT:
-grpcurl localhost:5001 describe mflix.services.MovieOptions
+grpcurl -plaintext localhost:4000 describe mflix.services.MovieOptions
 
 # OUTPUT
 mflix.services.MovieOptions is a message:
@@ -523,7 +533,7 @@ $request = @'
 }
 '@
 
-grpcurl -d $request localhost:5001 mflix.services.MovieService/GetMovieById
+grpcurl -d $request -plaintext localhost:4000 mflix.services.MovieService/GetMovieById
 
 
 # OUTPUT:
@@ -599,7 +609,7 @@ $request = @'
 }
 '@
 
-grpcurl -d $request localhost:5001 mflix.services.MovieService/GetMovieList
+grpcurl -d $request -plaintext localhost:4000 mflix.services.MovieService/GetMovieList
 
 # OUTPUT
 {
@@ -640,7 +650,7 @@ $request = @'
 }
 '@
 
-grpcurl -d $request localhost:5001 mflix.services.MovieService/SaveMovie
+grpcurl -d $request -plaintext localhost:4000 mflix.services.MovieService/SaveMovie
 
 
 # OUTPUT:
@@ -664,7 +674,7 @@ $request = @'
 }
 '@
 
-grpcurl -d $request localhost:5001 mflix.services.MovieService/SaveImdbRating
+grpcurl -d $request -plaintext localhost:4000 mflix.services.MovieService/SaveImdbRating
 
 
 # OUTPUT:
@@ -707,7 +717,7 @@ $request = @'
 }
 '@
 
-grpcurl -d $request localhost:5001 mflix.services.MovieService/SaveTomatoesRating
+grpcurl -d $request -plaintext localhost:4000 mflix.services.MovieService/SaveTomatoesRating
 
 
 # OUTPUT:
@@ -745,7 +755,7 @@ $request = @'
 }
 '@
 
-grpcurl -d $request localhost:5001 mflix.services.MovieService/SaveMetacriticRating
+grpcurl -d $request -plaintext localhost:4000 mflix.services.MovieService/SaveMetacriticRating
 
 
 # OUTPUT
@@ -764,7 +774,7 @@ $request = @'
 }
 '@
 
-grpcurl -d $request localhost:5001 mflix.services.MovieService/DeleteMovie
+grpcurl -d $request -plaintext localhost:4000 mflix.services.MovieService/DeleteMovie
 
 
 # OUTPUT
@@ -777,9 +787,17 @@ grpcurl -d $request localhost:5001 mflix.services.MovieService/DeleteMovie
 
 [gRPCUI](https://github.com/fullstorydev/grpcui) is a command-line tool that lets you interact with gRPC servers via a browser.
 
-You will need to have [golang (go)](https://golang.org/) installed before installing `gRPCurl`. See the install instructions at the [official golang documentation](https://golang.org/doc/install).
+You will need to have [golang (go)](https://golang.org/) installed before installing `gRPCUI`. See the install instructions at the [official golang documentation](https://golang.org/doc/install).
 
-All the following commands have been tested on the [cross-platform (Windows, Linux, and macOS) Powershell](https://github.com/PowerShell/PowerShell)
+For Linux users, you may need to add the following to your `~/.bashrc` file:
+
+```bash
+# go config
+export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:$GOPATH/bin
+```
+
+In ddition to BASH on Linux, all the following commands have also been tested on the [cross-platform (Windows, Linux, and macOS) Powershell](https://github.com/PowerShell/PowerShell).
 
 ### 5.2.1 Install gRPCUI
 
@@ -795,7 +813,7 @@ grpcui -version
 ### 5.2.2 Run gRPCUI
 
 ```powershell
-grpcui localhost:5001
+grpcui -plaintext localhost:4000
 
 # OUTPUT:
 gRPC Web UI available at http://127.0.0.1:63382/
@@ -828,6 +846,8 @@ gRPC Web UI available at http://127.0.0.1:63382/
 - Request Cancellation
 
 ### 5.3.1 Install
+
+Find the latest releases [here](https://github.com/uw-labs/bloomrpc/releases)
 
 - Mac Install
 
