@@ -345,7 +345,7 @@ docker-compose -f ./fabric/docker-compose.yaml config ps
 
 Alternatively, one can install an _[npm extension](https://github.com/Microsoft/vscode-npm-scripts)_ and run the your _npm_ tasks as follows:
 
-![npm-task-runner-720](https://user-images.githubusercontent.com/33935506/111884505-e9277680-8a26-11eb-82b4-54d7af16931b.gif)
+![npm-task-runner-up-1024](https://user-images.githubusercontent.com/33935506/113682919-c203c100-9717-11eb-9c24-1a68830a9d65.gif)
 
 #### 4.2.6 Test Stack
 
