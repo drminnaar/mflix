@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using GraphQL.Server.Ui.Voyager;
 using MFlix.GqlApi.Infrastructure;
 using MFlix.GqlApi.Infrastructure.Configuration;
 using MFlix.GqlApi.Infrastructure.Filters;
@@ -68,6 +69,12 @@ namespace MFlix.GqlApi
             {
                 endpoints.MapGraphQL();
             });
+            app.UseGraphQLVoyager(
+                options: new VoyagerOptions
+                {
+                    GraphQLEndPoint = "/graphql"
+                },
+                path: "/voyager");
         }
     }
 }
