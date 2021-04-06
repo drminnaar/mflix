@@ -25,6 +25,18 @@ I chose _MFlix_ as the name for this project because I am using one of the sampl
 
 ---
 
+## Other
+
+If you're new to REST, gRPC, and MongoDB. I have a few more projects that I maintain on Github that may be of interest.
+
+- [REST API Guide](https://github.com/drminnaar/ranker)
+- [Chinook - REST and Clean Architecture](https://github.com/drminnaar/chinook)
+- [gRPC Guide](https://github.com/drminnaar/grpc-guide)
+- [MongoDB - Getting Started](https://github.com/drminnaar/guides/blob/master/mongodb-guide/1-getting-started.md)
+- [MongoDB Stack](https://github.com/drminnaar/mongodb-stack)
+
+---
+
 ## 1. Purpose
 
 The primary purpose of _MFlix_ is to demonstrate how to build gRPC, REST (http), and GraphQL API's using C# and the .NET Framework. In order to do this, I have created a contrived use-case that will allow me to demonstrate how to build different API's for different needs. Each API demonstrates how to address the following requirements:
