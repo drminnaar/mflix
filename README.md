@@ -1,14 +1,27 @@
+![mflix-cover](https://user-images.githubusercontent.com/33935506/113660593-90c7c880-96f8-11eb-920b-65607ad48dd0.png)
+
 # MFlix
 
-A showcase of how to build API's (REST, gRPC, GraphQL) using C# .NET.
+A showcase of how to build API's (**REST**, **gRPC**, **GraphQL**) using C# .NET.
 
 I chose _MFlix_ as the name for this project because I am using one of the sample databases provided by MongoDB called MFlix. The MFlix database is composed of collections of movie related data. I provide more detail in the MongoDB section where I explain how to get a copy of the MFlix database. Therefore, because of the database name, and the fact that _MFlix_ is a short and catchy name, I decided to go with _MFlix_.
 
 - [1. Purpose](#1-purpose)
 - [2. Description](#2-description)
 - [3. Infrastructure](#3-infrastructure)
+  - [3.1 Mongo Seed](#31-mongo-seed)
+  - [3.2 The Docker Compose File](#32-the-docker-compose-file)
 - [4. Getting Started](#4-getting-started)
+  - [4.1 Get The Code](#41-get-the-code)
+  - [4.2 Manage Infrastructure](#42-manage-infrastructure)
+  - [4.3 Start MFlix gRpc API](#43-start-mflix-grpc-api)
+  - [4.4 Start MFlix HTTP API](#44-start-mflix-http-api)
+  - [4.5 Start MFlix GraphQL API](#45-start-mflix-graphql-api)
 - [5. Test MFlix gRPC services](#5-test-mflix-grpc-services)
+  - [5.1 gRPCurl](#51-grpcurl)
+  - [5.2 gRPCUI](#52-grpcui)
+  - [5.3 BloomRPC](#53-bloomrpc)
+  - [5.4 Insomnia](#54-insomnia)
 
 ---
 
@@ -354,14 +367,97 @@ There are currently 3 services that will mostly be used. The services are listed
 
 Use any of the following options to start the MFlix gRpc API:
 
+Use dotnet cli command:
+
 ```bash
-# Use dotnet cli command
 dotnet watch run --project ./src/MFlix.GrpcApi/MFlix.GrpcApi.csproj
 ```
 
+Use NPM task runner:
+
 ```bash
-# Use NPM task runner
 npm run start:grpc
+```
+
+[See section on how to test GRPC services](#5-test-mflix-grpc-services)
+
+### 4.4 Start MFlix HTTP API
+
+Use any of the following options to start the MFlix HTTP API:
+
+Use dotnet cli command:
+
+```bash
+dotnet watch run --project ./src/MFlix.HttpApi/MFlix.HttpApi.csproj
+```
+
+Use NPM task runner:
+
+```bash
+npm run start:http
+```
+
+Open Swagger Document in Browser:
+
+```bash
+http://localhost:5050/swagger
+```
+
+![swagger-all](https://user-images.githubusercontent.com/33935506/113671566-9c23ef80-970a-11eb-8490-f5a019c36da9.png)
+
+Open Postman Collection:
+
+[Find the Movies Postman Collection here](https://github.com/drminnaar/mflix/blob/99e7c641c740e5f725fbafb60ddaf491b6c42acf/MFlix.postman_collection.json)
+
+![postman](https://user-images.githubusercontent.com/33935506/113671560-9af2c280-970a-11eb-9a0b-b541a892a7b8.png)
+
+### 4.5 Start MFlix GraphQL API
+
+Use any of the following options to start the MFlix GraphQL API:
+
+Use dotnet cli command:
+
+```bash
+dotnet watch run --project ./src/MFlix.GqlApi/MFlix.GqlApi.csproj
+```
+
+Use NPM task runner:
+
+```bash
+npm run start:gql
+```
+
+Open Banana Cake Pop to start writing queries and mutations:
+
+```bash
+http://localhost:5000/graphql
+```
+
+![graphql](https://user-images.githubusercontent.com/33935506/113673285-e5753e80-970c-11eb-9e0a-1bf239cf7b83.png)
+
+Open Voyager to view API as interactive graph:
+
+```bash
+http://localhost:5000/voyager
+```
+
+![voyager](https://user-images.githubusercontent.com/33935506/113673289-e6a66b80-970c-11eb-8d0d-1616ba3c56a3.png)
+
+### 4.6 Start All MFlix API's
+
+Use NPM task runner to start all API's:
+
+```bash
+npm run start:apis
+
+# HTTP API: Open Swagger Document in Browser
+http://localhost:5050/swagger
+
+# GraphQL API: Open Banana Cake Pop to start writing queries and mutations:
+http://localhost:5000/graphql
+
+# GraphQL API: Open Voyager to view API as interactive graph:
+http://localhost:5000/voyager
 ```
 
 ---
