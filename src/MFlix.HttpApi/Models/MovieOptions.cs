@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
@@ -6,24 +6,9 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 
 namespace MFlix.HttpApi.Models
 {
-    public sealed class MovieOptions
+    public sealed class MovieOptions : PagedQueryParams
     {
-        private const int DEFAULT_PAGE_NUMBER = 1;
-        private const int DEFAULT_PAGE_SIZE = 10;
         private static readonly IReadOnlyCollection<string> DefaultOrder = new List<string> { "title" };
-
-        public static MovieOptions Empty(
-            int pageNumber = DEFAULT_PAGE_NUMBER,
-            int pageSize = DEFAULT_PAGE_SIZE)
-        {
-            return new() { PageNumber = pageNumber, PageSize = pageSize };
-        }
-
-        [FromQuery(Name = "page")]
-        public int PageNumber { get; init; } = DEFAULT_PAGE_NUMBER;
-
-        [FromQuery(Name = "limit")]
-        public int PageSize { get; init; } = DEFAULT_PAGE_SIZE;
 
         [FromQuery(Name = "rated")]
         public string Rated { get; init; } = string.Empty;

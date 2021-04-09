@@ -56,7 +56,11 @@ namespace MFlix.HttpApi.Controllers
                 Options = _mapper.Map<Services.MovieOptions>(options)
             });
 
-            return Ok(_mapper.Map<IEnumerable<Movie>>(response.Movies));
+            return this.OkWithPageHeader(
+                items: _mapper.Map<IPagedCollection<Movie>>(response),
+                routeName: nameof(ListMovies),
+                queryParams: options,
+                urlHelper: Url);
         }
 
         [HttpPost(Name = nameof(SaveMovie))]

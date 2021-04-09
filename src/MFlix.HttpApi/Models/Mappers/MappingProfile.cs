@@ -19,6 +19,7 @@ namespace MFlix.HttpApi.Models.Mappers
             CreateMovieForSaveMap();
             CreateMap<ImdbForSave, Services.Imdb>();
             CreateTomatoesForSaveMap();
+            CreateMoviePageCollectionMap();
         }
 
         private void CreateTomatoesRatingMap()
@@ -92,6 +93,19 @@ namespace MFlix.HttpApi.Models.Mappers
                         Rating = rating.ViewerRating
                     })
                 );
+        }
+
+        private void CreateMoviePageCollectionMap()
+        {
+            CreateMap<Services.GetMovieListResponse, IPagedCollection<Movie>>()
+                .ConvertUsing((response, collection, context) =>
+                {
+                    return new PagedCollection<Movie>(
+                        context.Mapper.Map<List<Movie>>(response.Movies),
+                        response.PageInfo.ItemCount,
+                        response.PageInfo.CurrentPageNumber,
+                        response.PageInfo.PageSize);
+                });
         }
     }
 }
