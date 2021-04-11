@@ -1,4 +1,4 @@
-![mflix-cover](https://user-images.githubusercontent.com/33935506/113660593-90c7c880-96f8-11eb-920b-65607ad48dd0.png)
+![mflix-github](https://user-images.githubusercontent.com/33935506/114293752-d9aec100-9aec-11eb-8b5b-e04477d9dda0.png)
 
 # MFlix
 
